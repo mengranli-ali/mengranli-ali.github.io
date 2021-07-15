@@ -13,12 +13,12 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username:     huxpro
-zhihu_username:     huxpro
-github_username:    huxpro
-twitter_username:   huxpro
+# weibo_username:     huxpro
+# zhihu_username:     huxpro
+github_username:    mengranli-ali
+# twitter_username:   huxpro
 #facebook_username:  huxpro
-#linkedin_username:  firstname-lastname-idxxxx
+#linkedin_username:  mengran-li-mrl
 
 
 
@@ -71,7 +71,7 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
+# ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
 ga_domain: mengranli-ali.github.io
 
 
@@ -101,33 +101,4 @@ page-mathjax: false
 
 
 # Friends
-friends: [
-    {
-    #     title: "Su",
-    #     href: "http://su.gallery/"
-    # },{
-        title: "乱序（Midare）",
-        href: "http://mida.re/"
-    },{
-        title: "Sherry Woo",
-        href: "https://sherrywoo.me/"
-    },{
-        title: "Kun Qian",
-        href: "http://kunq.me"
-    },{
-        title: "Ebn Zhang",
-        href: "http://ebnbin.com/"
-    },{
-        title: "SmdCn",
-        href: "http://blog.smdcn.net"
-    },{
-        title: "JiyinYiyong",
-        href: "http://tiye.me/"
-    },{
-        title: "DHong Say",
-        href: "http://dhong.co"
-    },{
-        title: "尹峰以为",
-        href: "http://ingf.github.io/"
-    }
-]
+friends: []
