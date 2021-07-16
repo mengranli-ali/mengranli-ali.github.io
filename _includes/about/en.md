@@ -4,7 +4,7 @@ I'm currently working as an Optimisation Manager at [GroupM](https://www.groupm.
 
 I completed Masters in Data and Society at [LSE, London School of Economics](https://www.lse.ac.uk/study-at-lse/Graduate/degree-programmes-2021/MSc-Media-and-Communications-Data-and-Society) and BA in Communication at [Beijing Normal University](https://en.wikipedia.org/wiki/Beijing_Normal_University).
 
-
+<!--
 [comment]: <> (##### [My PL Spectrum &#40;WIP 🚧&#41;]&#40;https://huangxuan.me/2020/05/05/pl-chart/&#41;)
 
 [comment]: <> (I made a chart to visualize my experiences and interests on some of the programming languages. I know. I know this is always contraversial. But it's just something quite self-entertaining to do. So bare with me and have fun reading that!)
@@ -46,3 +46,5 @@ I completed Masters in Data and Society at [LSE, London School of Economics](htt
 [comment]: <> ([8]: https://yanshuo.io/assets/player/?deck=594d673d570c357d0698a950 "Building PWA")
 
 [comment]: <> ([9]: //huangxuan.me/jsconfcn2017/)
+
+-->
