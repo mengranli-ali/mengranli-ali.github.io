@@ -1,23 +1,23 @@
 ---
 layout: page
 title: "About"
-description: "《你是我的梦想》"
+description: "me..."
 header-img: "img/about-bg-pic.jpg"
 multilingual: true
 ---
 
 {% include multilingual-sel.html %}
 
-<!-- Chinese Version -->
-<div class="zh post-container">
-    {% capture about_zh %}{% include about/zh.md %}{% endcapture %}
-    {{ about_zh | markdownify }}
-</div>
-
 <!-- English Version -->
 <div class="en post-container">
     {% capture about_en %}{% include about/en.md %}{% endcapture %}
     {{ about_en | markdownify }}
+</div>
+
+<!-- Chinese Version -->
+<div class="zh post-container">
+    {% capture about_zh %}{% include about/zh.md %}{% endcapture %}
+    {{ about_zh | markdownify }}
 </div>
 
 
