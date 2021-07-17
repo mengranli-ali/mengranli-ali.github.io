@@ -2,6 +2,8 @@
 title: Mengran's Blog
 SEOTitle: 李梦冉的博客 | Mengran's Blog
 header-img: img/homepage-bg-pic.jpg
+header-style: text
+header-mask: 0.3
 email: limengran257@gmail.com
 description: "Based in London"
 keyword: "Python, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计"
