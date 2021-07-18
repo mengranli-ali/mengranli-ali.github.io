@@ -1154,6 +1154,10 @@ samp {
   color: white;
 }
 
+.about-heading .sub-heading {
+  color: white;
+}
+
 @media only screen and (min-width: 768px) {
   .intro-header .site-heading,
   .intro-header .post-heading,
