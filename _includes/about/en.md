@@ -4,6 +4,8 @@ I'm currently working as an Optimisation Manager at [GroupM](https://www.groupm.
 
 I completed Masters in Data and Society at [LSE, London School of Economics](https://www.lse.ac.uk/study-at-lse/Graduate/degree-programmes-2021/MSc-Media-and-Communications-Data-and-Society) and BA in Communication at [Beijing Normal University](https://en.wikipedia.org/wiki/Beijing_Normal_University).
 
+
+
 <!--
 [comment]: <> (##### [My PL Spectrum &#40;WIP 🚧&#41;]&#40;https://huangxuan.me/2020/05/05/pl-chart/&#41;)
 
