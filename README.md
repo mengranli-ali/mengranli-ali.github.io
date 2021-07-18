@@ -1,9 +1,9 @@
-[Mengran's Blog](https://mengran.co.uk)
+[Mengran's Blog](https://www.mengran.co.uk/)
 ================================
 
 > Mengran's Dev Blog.
 
-![](https://github.com/mengranli-ali/mengranli-ali.github.io/img/blog-desktop-pic.webp)
+![](./img/blog-desktop-pic.webp)
 
 
 
