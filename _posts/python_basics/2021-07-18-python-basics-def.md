@@ -87,11 +87,79 @@ a = 123
 b = a
 ```
 
-### 模块（Module）、包（Package）、库（Library）、应用（Application）、框架（Framework）
+### 模块（`Module`）、包（`Package`）、库（`Library`）、应用（`Application`）、框架（`Framework`）
 
 「函数」和「类」组成了「模块」，多个「模块」组成了「包」，多个「包」或者多个「模块」组成了「应用程序」，「应用程序」具有某些特定功能且作为依赖提供给其他项目使用叫作「库」，提供某一领域解决方案的「库」叫框架。
 
+**引用模块 / 包：`import`**
 
+import 的本质是路径搜索。使用`import module_name` 语句导入。
+
+import 引用可以是模块` module`，或者包 `package`。
+
+模块 `module` 和包 `package `是个体和集合的关系: 模块是一个个体，里面包含了函数 `function`。
+
+包 `package` 就是多个模块 `module` 的集合` collection`。
+
+**如何引入？**
+
+针对 module，实际上是引用一个.py 文件。
+
+而针对 package，可以采用 from … import …的方式，这里实际上是从一个目录中引用模块，这时目录结构中必须带有一个 __init__.py 文件。
+
+```vim
+# 导入一个模块
+import model_name
+# 导入多个模块
+import module_name1,module_name2
+# 导入包中指定模块 
+from package_name import moudule_name
+# 导入包中所有模块 
+from package_name import *
+
+```
+
+### Input and Output 
+
+`raw_input` 是 `Python2.7` 的输入函数，在 `Python3.x `里可以直接使用` input`赋值给变量 name
+
+`print `是输出函数，`%name `代表变量的数值，因为是字符串 `string `类型，所以在前面用的 `%s `作为代替。
+
+如果变量数值是字符串` string` 类型，则用 `%s `代替
+
+如果变量数值是 `integer` 类型，则用` %d `代替
+
+```vim
+
+name = raw_input("What's your name?")
+sum = 100+100
+print ('hello,%s' %name)
+print ('sum = %d' %sum)
+
+_what's your name? _alicia_
+hello, alicia
+sum = 200_
+```
+
+### Comment
+
+注释 `comment` 在 python 中使用 `#`
+
+如果注释中有中文，一般会在代码前添加 ` - coding: utf-8 -`
+
+如果是多行注释，使用三个单引号，或者三个双引号
+
+```vim
+
+# -*- coding: utf-8 -*
+
+'''
+这是多行注释，用三个单引号
+这是多行注释，用三个单引号 
+这是多行注释，用三个单引号
+'''"
+
+```
 
 
 
