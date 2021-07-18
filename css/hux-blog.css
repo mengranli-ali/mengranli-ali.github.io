@@ -1149,6 +1149,11 @@ samp {
   padding: 85px 0 55px;
   color: black;
 }
+
+.about-heading h1{
+  color: white;
+}
+
 @media only screen and (min-width: 768px) {
   .intro-header .site-heading,
   .intro-header .post-heading,
