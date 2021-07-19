@@ -82,7 +82,7 @@ array [0:integer]
 
 **使用lambda从序列a中取出小于b的元素**
 
-**_Using lambda to select elements less than b from array a_** 
+_**Using lambda to select elements less than b from array a**_
 
 ```vim
 a = (1,3,5,7)
@@ -101,7 +101,7 @@ print(list(filter(lambda x: x < b, a)))
 
 **使用lambda从序列a中取出小于b的元素的个数**
 
-_**Using lambda to calculate the number of elements less than b selected from array a._**
+_**Using lambda to calculate the number of elements less than b selected from array a.**_
 
 ```vim
 a = (1,3,5,7)
@@ -120,7 +120,7 @@ print(len(list(filter(lambda x: x < b, a))))
 
 **如何使用元组来计算日期属于哪个生肖**
 
-_**Using Tup to calculate which date belongs to which Chinese zodiac._**
+_**Using Tup to calculate which date belongs to which Chinese zodiac.**_
 
 ```vim
 zodiac_name = ('mojiezuo', 'shuipingzuo','baiyangzuo','jinniuzuo','shuagnyuzuo')
@@ -163,9 +163,270 @@ print(a_list)
 >>>['abc', 'xyz', 'yyy']
 ```
 
+### Conditions and Loop 条件与循环
+
+#### Condition - 条件语句 if 
+
+Basic syntax:
+```vim
+if condition a :
+        code block
+        
+if condition a :
+        code block a
+   elif condition b:
+        code block b
+   else: 
+        code block c
+```
+
+Example:
+```vim
+x = 'abc'
+if x == 'abc':
+    print('they are the same')
+    
+>>>they are the same
+```
+```vim
+x = 'abcccc'
+if x == 'abc':
+    print('they are the same')
+else:
+   print('they are not the same')
+   
+>>>they are not the same
+```
+
+**Exercise: Input year and output its according Chinese zodiac of dog**
+
+_通过input年份来输出年份所对应的生肖_
+
+```vim
+chinese_zodiac = '猴鸡狗猪鼠牛虎兔龙蛇马羊'
+
+# transform into int
+year = int(input('please input your birth year:'))
+
+if (chinese_zodiac[year % 12]) == '狗':
+  print('The YEAR OF THE DOG')
+  
+>>>please input your birth year:1994
+>>>The YEAR OF THE DOG
+```
+
+#### Loop - 循环语句 `for` and `while`
+
+**Loop 1: 条件与循环1：`for loop`**
+
+Basic syntax:
+```vim
+for 迭代变量 in 可迭代对象：
+           代码块
+```
+
+**1. Using `for` loop to input all elements:** 
+
+Example:
+```vim
+chinese_zodiac = '猴鸡狗猪鼠牛虎兔龙蛇马羊'
+
+# input all elements from the string using for loop
+for x in chinese_zodiac:
+    print(x)
+
+>>>
+猴
+鸡
+狗
+猪
+鼠
+牛
+虎
+兔
+龙
+蛇
+马
+羊
+```
+
+**2. Using `for` loop to input all numbers from range(0,13), 13 will not be included** 
+
+_使用for loop来input在(0,13)范围内的所有数字_
+
+```vim
+for i in range(13):
+    print(i)
+
+>>>
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+```
+
+**3. Using `for` loop to input 使用for loop来INPUT 相对应的%字符串 - %s**
+
+```vim
+chinese_zodiac = '猴鸡狗猪鼠牛虎兔龙蛇马羊'
+    
+for year in range(2018,2021):
+    print('The year of %s is %s' % (year, chinese_zodiac[year % 12]))
+
+>>>The year of 2018 is 狗
+>>>The year of 2019 is 猪
+>>>The year of 2020 is 鼠
+```
+
+**4. Using `if` condition in `for` loop**
+
+_For 循环语句中的if嵌套_
+
+```vim
+a = ('aaa', 'bbb', 'ccc', 'ddd','eee','fff')
+b = ((1,12), (2,21),(3,23),(4,23),(5,23),(6,24),(7,28),(8,24),(9,15),(10,12),(11,25),(12,26))
+
+int_month = int (input('please input the month: '))
+int_day = int (input('please input the day: '))
+
+for i in range(len(a)):
+    if b[i] <= (int_month, int_day):
+        print(a[i])
+        break
+
+>>>please input the month: 3
+>>>please input the day: 22
+>>>aaa
+```
+
+**Exercise: using `for` loop to calculate Chinese zodiac based on year**
+
+_使用for loop来计算年份所对应的生肖_
+
+```vim
+zodiac_name = ('mojiezuo', 'shuipingzuo','baiyangzuo','jinniuzuo','shuagnyuzuo')
+zodiac_days = ((1,20), (2,18),(3,21),(4,25),(12,21))
+
+# user input month & day
+# transform string into int
+
+int_month = int(input('please input month: '))
+int_day = int(input('please input day: '))
+print(type(int_month))
+
+for zd_num in range(len(zodiac_days)):
+
+    # compare zd_num with input of month & day
+    # figure out the index/position of the array
+    if zodiac_days[zd_num] >= (int_month, int_day):
+       # then pass the index num to get back the element of the array
+        print(zodiac_name[zd_num])
+        # if true then break
+        break
+        
+    elif int_month == 12 and int_day > 21:
+        print(zodiac_name[0])
+        break
+        
+>>>please input month: 6
+>>>please input day: 23
+>>><class 'int'>
+>>>shuagnyuzuo
+```
 
 
+**Loop 2: 条件与循环2：`while loop`**
 
+Basic syntax:
 
+```vim
+while True:
+    print('a')
+    break
 
+>>>a
+```
+
+**1. Using `while` loop to input results 6 times, break when it's running in the 7th time**
+
+_使用while loop来print a 六次，直到第七次break_
+
+```vim
+#first define a variable
+
+num = 5
+while True:
+    print('a')
+    num += 1
+
+    # keep looping until num > 10, then break
+    if num > 10:
+        break
+
+>>>
+a
+a
+a
+a
+a
+a  
+```
+**2. Using while loop to input 5, 4, 2, 1, skip 3 then break at 0**
+
+_使用while loop来input 5, 4, 2, 1, 跳过3, 然后break at 0_
+
+```vim
+import time
+num = 6
+while True:
+    num -= 1
+    # keep looping until num == 0, then break
+    if num == 3:
+        continue
+    elif num == 0:
+        break
+    print(num)
+    time.sleep(1)
+
+>>>
+5
+4
+2
+1
+```
+
+**3. Using `if` condition in `while` loop**
+
+_while 循环语句中的if嵌套_
+
+```vim
+a = ('aaa', 'bbb', 'ccc', 'ddd','eee','fff')
+b = ((1,12), (2,21),(3,23),(4,23),(5,23),(6,24),(7,28),(8,24),(9,15),(10,12),(11,25),(12,26))
+
+int_month = int (input('please input the month: '))
+int_day = int (input('please input the day: '))
+
+**# initiate the variable 初始化**
+n = 0
+
+while b[n] < (int_month, int_day):
+    if int_month == 12 and int_day >26:
+        break
+    n += 1
+print (a[n])
+
+>>>please input the month: 12
+>>>please input the day: 27
+>>>aaa
+
+```
 
