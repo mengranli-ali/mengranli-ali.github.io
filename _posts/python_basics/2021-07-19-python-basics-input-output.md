@@ -13,14 +13,14 @@ tags:
 
 **Files Built-in Functions:**
 
-- open() - 打开文件 open a file
-- read() - 输入 read/input a file
-- readline() - 输入一行 read/input a line
-- seek() -文件内移动 look for 
-- write() -输出 output 
-- close() -关闭文件 close a file
-- mode=w - 要写入  mode as write
-- mode=r -要读取  mode as read
+- `open()` - 打开文件 open a file
+- `read()` - 输入 read/input a file
+- `readline()` - 输入一行 read/input a line
+- `seek() `-文件内移动 look for 
+- `write()` -输出 output 
+- `close()` -关闭文件 close a file
+- `mode=w` - 要写入  mode as write
+- `mode=r` -要读取  mode as read
 
 **`open()` function**
 
@@ -28,12 +28,12 @@ The `open()` function takes two parameters; filename, and mode.
 
 There are four different methods (modes) for opening a file:
 
-- "r" - Read - Default value. Opens a file for reading, error if the file does not exist
-- "a" - Append - Opens a file for appending, won't overwrite any existing content, creates the file if it does not exist
-- "w" - Write - Opens a file for writing, overwrites any existing content, creates the file if it does not exist
-- "x" - Create - Creates the specified file, returns an error if the file exists
-- "t" - Text - Default value. Text mode
-- "b" - Binary - Binary mode (e.g. images)
+- `"r"` - Read - Default value. Opens a file for reading, error if the file does not exist
+- `"a"` - Append - Opens a file for appending, won't overwrite any existing content, creates the file if it does not exist
+- `"w"` - Write - Opens a file for writing, overwrites any existing content, creates the file if it does not exist
+- `"x"` - Create - Creates the specified file, returns an error if the file exists
+- `"t"` - Text - Default value. Text mode
+- `"b"` - Binary - Binary mode (e.g. images)
 
 **Scenario 1: Create and open a file, write in and close**
 
