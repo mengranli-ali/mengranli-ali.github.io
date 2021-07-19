@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Python Basics 2: Built-in Data Types & condition loop"
+title: "Python Basics 2: Built-in Data Types & Loop"
 subtitle: 'Definition of Array, String, List, Dictionary, Loop etc'
 author: "Mengran"
 header-style: text
