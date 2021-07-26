@@ -61,7 +61,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: mengran
+# disqus_username: mengran
 
 # Netease settings
 netease_comment: false
