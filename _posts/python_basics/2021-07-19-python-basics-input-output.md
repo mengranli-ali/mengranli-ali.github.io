@@ -75,6 +75,36 @@ file3.close()
 >>>LilyLucy
 ```
 
+**Scenario 4: Open the existing file, print out all lines**
+
+Traditional solution:
+
+```vim
+fd = open('name.txt')
+
+# not elegant way
+try:
+    for line in fd:
+        print(line)
+finally:
+    fd.close()
+```
+
+More simplified solution:
+
+```vim
+# more clean way - with
+# no need to use finally
+# if exception, with will be automatically calling finally to close the file
+
+with open('name.txt') as f:
+    for line in f:
+        print(line)
+```
+
+
+
+
 
 ### File Operations
 More specific scenarios of file handling:

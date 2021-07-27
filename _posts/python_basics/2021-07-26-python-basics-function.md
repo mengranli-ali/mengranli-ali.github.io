@@ -679,3 +679,194 @@ print(line2(10))
 >>>35
 ```
 
+### Decorator 装饰器
+
+Definition: To add some functions without adding extra code
+
+想添加一些功能，但不想添加一些额外的代码
+
+**Example: To calculate the running time of function**
+
+**Traditional code:**
+
+```vim
+# coding=utf-8
+import time
+
+print(time.time())
+
+# 统计函数运行的功能
+# 在函数运行前 记录一个时间
+# 在函数运行结束前 再记录一个时间
+# 两个相减 得到函数的运行时间
+
+def i_can_sleep():
+    # 让函数运行3秒
+    time.sleep(3)
+
+start_time = time.time()
+i_can_sleep()
+stop_time = time.time()
+print('this function run %s seconds' % (stop_time - start_time))
+
+>>>1615043914.24
+>>>this function run 3.00271201134 seconds
+
+```
+
+**Solution: Using `@Timer` decorator**
+
+使用装饰器@timer: timer是装饰函数
+
+i_can_sleep()是被装饰函数, 这样额外的功能就可以封存在这个装饰功能里面
+
+就可以直接使用I_can_sleep(), 程序就会自动去找这个@timer装饰器
+
+```vim
+# coding=utf-8
+import time
+
+print(time.time())
+
+def timer(func):
+    def wrapper():
+        start_time = time.time()
+        func()
+        stop_time = time.time()
+        print('this function run %s seconds' % (stop_time - start_time))
+    return wrapper
+
+@timer
+def i_can_sleep():
+    # 让函数运行3秒
+    time.sleep(3)
+
+
+i_can_sleep()
+
+>>>1615045399.61
+>>>this function run 3.00200796127 seconds
+```
+
+#### Use of Decorator
+
+1.对于带参数的函数，里面加入一个装饰器:
+
+@tips
+
+```vim
+# define a function summing up two elements
+def tips(func):
+    def inside(a, b):
+        print('start')
+        func(a, b)
+        print('stop')
+
+    return inside
+
+
+@tips
+def add(a, b):
+    print(a + b)
+
+@tips
+def sub(a, b):
+    print(a - b)
+
+print(add(4, 5))
+print(sub(5, 4))
+
+>>>
+start
+9
+stop
+None
+
+start
+1
+stop
+None
+```
+
+2.给装饰器添加参数, 可以把原先的函数封装到新的函数里面
+
+@new_tips('add')
+
+```vim
+# define a function summing up two elements
+def new_tips(argv):
+    def tips(func):
+        def inside(a, b):
+            print('start %s' %argv)
+            func(a, b)
+            print('stop')
+
+        return inside
+    return tips
+
+
+@new_tips('add')
+def add(a, b):
+    print(a + b)
+
+
+@new_tips('sub')
+def sub(a, b):
+    print(a - b)
+
+
+print(add(4, 5))
+print(sub(5, 4))
+
+>>>
+start add
+9
+stop
+None
+start sub
+1
+stop
+None
+```
+
+3.取出func add & func sub函数的名字, 然后取出变量__name__
+
+这样不用对变量进行赋值，默认就会取出它对应的值
+
+```vim
+# define a function summing up two elements
+def new_tips(argv):
+    def tips(func):
+        def inside(a, b):
+            print('start %s %s' %(argv, func.__name__))
+            func(a, b)
+            print('stop')
+
+        return inside
+    return tips
+
+
+@new_tips('add_module')
+def add(a, b):
+    print(a + b)
+
+
+@new_tips('sub_module')
+def sub(a, b):
+    print(a - b)
+
+
+print(add(4, 5))
+print(sub(5, 4))
+
+>>>
+start add_module add
+9
+stop
+None
+start sub_module sub
+1
+stop
+None
+```
+
