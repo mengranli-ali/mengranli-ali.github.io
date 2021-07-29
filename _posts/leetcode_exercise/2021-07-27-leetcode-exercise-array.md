@@ -167,3 +167,94 @@ def findNumbers(self, nums: List[int]) -> int:
 	return res
 ```
 
+### Squares of a Sorted Array
+
+Given an integer array `nums` sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+
+**Example 1:**
+
+Input: nums = [-4,-1,0,3,10]
+
+Output: [0,1,9,16,100]
+
+Explanation: 
+
+After squaring, the array becomes [16,1,0,9,100].
+
+After sorting, it becomes [0,1,9,16,100].
+
+**Example 2:**
+
+Input: nums = [-7,-3,2,3,11]
+
+Output: [4,9,9,49,121]
+
+**Solution 1:**
+
+Explanation:
+
+- Square of negative numbers is positive. (square of zero is zero) eg square of -4 is `(-4) * (-4) = 16`
+- Since input is sorted (can include negative numbers), the squares of each number will follow a shape as shown in pic below.
+- We have to start with 2 pointers: one pointing to left most and the other pointing to right most.
+- Keep comparing the 2 pointers and add maximum among the two into the results list.
+- Since we are adding in reverse order, we will have to reverse the list at the end. (or else use deque and appendleft)
+- Keep moving pointers until all numbers processed.
+
+
+```vim
+class Solution:
+    
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        
+        # if dont want to use deque, use regular list/stack instead and reverse it at the end
+        results = collections.deque() # to use appendleft func
+    
+        left = 0
+        right = len(A) - 1
+        
+        while left <= right:
+            
+            pow_left = int(math.pow(A[left], 2))
+            pow_right = int(math.pow(A[right], 2))
+            
+            if pow_left >= pow_right:
+                results.appendleft(pow_left)
+                left += 1
+            else: # pow_left < pow_right
+                results.appendleft(pow_right)
+                right -= 1
+                
+        return results
+```
+
+**Solution 2:**
+
+```vim
+class Solution:
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        return(sorted([x*x for x in A]))
+        
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        return sorted([v**2 for v in A])
+```
+
+**Solution 3:**
+
+```vim
+def sortedSquares(self, A: List[int]) -> List[int]:
+        return_array = [v**2 for v in A]
+		return_array.sort() # This is in place!
+		return return_array
+```
+
+**Solution 4:**
+
+```vim
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        for i in range(len(nums)):
+            nums[i] *= nums[i]
+        nums.sort()
+        return nums
+```
+
