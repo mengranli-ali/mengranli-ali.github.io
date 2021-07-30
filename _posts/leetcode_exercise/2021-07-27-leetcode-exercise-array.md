@@ -258,3 +258,118 @@ class Solution:
         return nums
 ```
 
+### Duplicate Zeros
+
+Given a fixed length array `arr` of integers, duplicate each occurrence of zero, shifting the remaining elements to the right.
+
+Note that elements beyond the length of the original array are not written.
+
+Do the above modifications to the input array **in place**, do not return anything from your function.
+
+**in-place操作**，意思是所有的操作都是**”就地“**操作，不允许进行移动，或者称作原位操作，即不允许使用临时变量。
+
+**Example 1:**
+
+Input: [1,0,2,3,0,4,5,0]
+
+Output: null
+
+Explanation: 
+
+After calling your function, the input array is modified to: [1,0,0,2,3,0,0,4]
+
+**Example 2:**
+
+Input: [1,2,3]
+
+Output: null
+
+Explanation: After calling your function, the input array is modified to: [1,2,3]
+
+**Thinking：**
+- The problem statement clearly states that we are to modify the array in-place. That does not mean we cannot use another array. We just don't have to return anything.
+- A better way to solve this would be without using additional space. The only reason the problem statement allows you to make modifications in place is that it hints at avoiding any additional memory.
+- The main problem with not using additional memory is that we might override elements due to the zero duplication requirement of the problem statement. How do we get around that?
+- If we had enough space available, we would be able to accommodate all the elements properly. The new length would be the original length of the array plus the number of zeros. 
+
+Solution:
+
+Start from the back and adjust items to correct locations. If item is zero then duplicate it.
+
+```vim
+class Solution:
+    def duplicateZeros(self, arr: List[int]) -> None:
+        zeroes = arr.count(0)
+        n = len(arr)
+        for i in range(n-1, -1, -1):
+            
+            # Every number in the original array is shifted to the right by the number of zeros so far.
+            # Because of the cutoff, we are going to check if the new position of the number is inside the array.
+            if i + zeroes < n:
+                arr[i + zeroes] = arr[i]
+            
+            # This is checking if there is a Θ that should be included.
+            if arr[i] == 0: 
+                zeroes -= 1
+                if i + zeroes < n:
+                    arr[i + zeroes] = 0
+```
+
+Your input: `[1,0,2,3,0,4,5,0]`
+
+Your answer: `[1,0,0,2,3,0,0,4]`
+
+Expected answer: `[1,0,0,2,3,0,0,4]`
+
+
+
+**Logic behind:**
+
+original arr:
+`[1, 0, 2, 0, 3, 0]`
+
+num of zeros so far:
+`[0, 1, 1, 2, 2, 3]`
+
+arr with duplicate 0s (Θ means a duplicate 0):
+`[1, Θ, 0, 2, Θ, 0, 3, Θ, 0]`
+
+arr after cutoff：
+`[1, Θ, 0, 2, Θ, 0]`
+
+This algorithm goes backwards and applies correct shifting distance to every element.
+
+1.Why backwards?
+
+If we would start shifting from left to right, then we would be overwriting elements before we have had the chance to shift them,
+that is why we go backwards instead.
+
+We make sure we have shifted out an element before we shift another one into its original position.
+
+2.What is the correct shift distance?
+
+The duplication of a zero pushes all elements to the right of it by one.
+This means also that every element is shifted to the right as many times as there are zeroes to the left of it.
+
+E.g. in the array `[1,0,2,0,3]` , 1 will not move, 2 will shift one position and 3 will shift two positions.
+As we go backwards, every time we bypass a zero (and duplicate it), the shift distance decreases for the elements we haven't shifted yet, because there is one less zero in front of them.
+
+3.Why the < n checks?
+
+Shifts push some of the elements out of the array. We do the < n checks to make sure we write down only elements that are shifted to a valid position inside the array and we ignore the ones falling off the end.
+
+
+**Simple Solution:**
+
+```vim
+class Solution:
+	def duplicateZeros(self, arr: List[int]) -> None:
+		i = 0
+		n = len(arr)
+		while(i<n):
+			if arr[i]==0:
+				arr.pop()
+				arr.insert(i,0)
+				i+=1
+			i+=1
+```
