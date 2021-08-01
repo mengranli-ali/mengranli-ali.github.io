@@ -12,7 +12,8 @@ tags:
 ### Python Library
 
 **library References**
-The python standard library： https://docs.python.org/3/library/
+
+The **[python standard library]** (https://docs.python.org/3/library/)
 
 ### Regular Expression 正则表达式库re
 
