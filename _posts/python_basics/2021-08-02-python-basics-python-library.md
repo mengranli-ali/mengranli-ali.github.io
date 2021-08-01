@@ -273,5 +273,325 @@ _abcccccd_
 ```
 
 
+### Examples of Regular Expression
 
+**正则表达式分组功能实例**
+
+`.{3}` 表示任意一个字符出现3次或3次以上
+
+```vim
+import re
+
+# ...
+p = re.compile('.{3}')
+ok = p.match('cc')
+print(ok)
+
+```
+
+`.group()` and `.groups()` 
+
+如何匹配年月份,把年月日取出来:
+
+```vim
+# coding=utf-8
+import re
+
+# ...
+# r表示不要转译 原样输出
+p = re.compile(r'(\d+)-(\d+)-(\d+)')
+ok = p.match('2018-05-10')
+
+print(ok)
+
+>>>
+<re.Match object; span=(0, 10), match='2018-05-10'>
+```
+
+Use `.group()`
+
+```vim
+# coding=utf-8
+import re
+
+# ...
+# r表示不要转译 原样输出
+p = re.compile(r'(\d+)-(\d+)-(\d+)')
+ok = p.match('2018-05-10')
+
+year = ok.group(1)
+month = ok.group(2)
+day = ok.group(3)
+date = ok.group(0)   # = ok.group()
+
+print(year)
+print(month)
+print(day)
+print(date)
+
+>>>
+2018
+05
+10
+2018-05-10
+<_sre.SRE_Match object at 0x1102d0f08>
+```
+
+```vim
+# coding=utf-8
+import re
+
+# ...
+# r表示不要转译 原样输出
+p = re.compile(r'(\d+)-(\d+)-(\d+)')
+d = ('2020-11-11')
+ok = p.match(d)
+
+year = ok.group(1)
+month = ok.group(2)
+day = ok.group(3)
+date = ok.group(0)   # = ok.group()
+
+print(year)
+print(month)
+print(date)
+
+>>>
+2020
+11
+2020-11-11
+```
+
+use `.groups()`
+
+```vim
+# coding=utf-8
+import re
+
+# ...
+# r表示不要转译 原样输出
+p = re.compile(r'(\d+)-(\d+)-(\d+)')
+ok = p.match('2018-05-10')
+year, month, date = ok.groups()
+print(year)
+print(month)
+print(date)
+print(ok)
+
+>>>
+2018
+05
+10
+<_sre.SRE_Match object at 0x107157e70>
+```
+
+### Difference between `.match()` and `.search()`
+
+**正则表达式库函数match与search的区别:**
+
+`.search()`可以匹配字符串中的日期, 无须fully matched
+
+`.match()` 必须从**字符串开头**进行匹配，相当于自带了一个 ^
+
+```vim
+# coding=utf-8
+import re
+
+# ...
+# r表示不要转译 原样输出
+p = re.compile(r'(\d+)-(\d+)-(\d+)')
+d = ('2020-11-11bb')
+ok = p.search(d)
+ok1 = p.match(d)
+ok2 = p.match('aa2020-11-11bb')
+
+print(ok)
+print(ok1)
+print(ok2)
+
+>>>
+<re.Match object; span=(0, 10), match='2020-11-11'>
+<re.Match object; span=(0, 10), match='2020-11-11'>
+None
+```
+
+### How to use .sub()
+
+**正则表达式库替换函数sub()的实例:**
+
+`.sub()` 用于字符串的替换
+
+Example 1: 把phone字符串里面的#后面部分替换为空白
+- use `r` to escape character;`r` 是声明这个字符串里面是正则表达式的元字符
+- `r'#.*$'` to replace the `#`symbol until the end `$`
+
+```vim
+# coding=utf-8
+import re
+
+phone = '123-456-789 # this is phone number'
+# `r'#.*$'` to replace the #symbol until the end$
+# use r to escape character
+# in the middle ' ' means sth to place with
+p2 = re.sub(r'#.*$', ' ', phone)
+print(p2)
+
+>>>
+123-456-789 
+```
+
+Example 2: 把phone字符串里面的 `-` 替换掉
+
+使用 `r'\D' `把所有非数字的字符替换掉 - Replace all non-number symbols
+
+```vim
+# coding=utf-8
+import re
+
+phone = '123-456-789 # this is phone number'
+p1 = re.sub(r'#.*$', '', phone)
+p2 = re.sub(r'\D', '', p1)
+print(p2)
+
+>>>
+123456789
+```
+
+### How to use `.findall()`
+
+`.findall()` 是找到所有匹配的字符串
+
+`.findall()`、`.match()`、`.sub()`、`.search()`分别是不同的函数功能，并非是扩展，例如.search()函数是找到第一个匹配的字符串.
+
+Example: Find all numbers in string and return string '123'
+```vim
+import re
+
+string = "x abc y 123 z 123"
+pattern = re.compile(r'\d+')
+
+print(re.search(pattern,string))
+print(pattern.findall(string))
+
+>>>
+<re.Match object; span=(8, 11), match='123'>
+['123', '123']
+```
+
+
+## time and datetime 日期与时间函数库
+
+`time.localtime()` 当地时间
+
+```vim
+import time
+
+print(time.time())
+print(time.localtime())
+
+>>>
+1616618004.89
+time.struct_time(tm_year=2021, tm_mon=3, tm_mday=24, tm_hour=20, tm_min=33, tm_sec=24, tm_wday=2, tm_yday=83, tm_isdst=0)
+```
+
+`time.strftime()` 
+
+1.输入年月日
+
+```vim
+import time
+
+print(time.strftime('%Y-%m-%d'))
+
+>>>
+2021-08-01
+
+```
+
+2.输入时分秒
+
+```vim
+print(time.strftime('%Y-%m-%d %H:%M:%S'))
+
+>>>
+2021-08-01 20:43:52
+```
+
+3.输出年月日没有空格
+
+```vim
+print(time.strftime('%Y%m%d'))
+
+>>>
+20210801
+```
+
+4.输出现在的时间
+
+```vim
+import datetime
+
+print(datetime.datetime.now())
+
+>>>
+2021-08-01 20:46:20
+```
+
+5.输出当前时间的十分钟后的时间
+
+```vim
+import datetime
+
+print(datetime.datetime.now())
+newtime = datetime.timedelta(minutes=10)
+print(datetime.datetime.now() + newtime)
+
+>>>
+2021-03-24 20:48:20.721565
+2021-03-24 20:58:20.721612
+```
+
+6.输出某一天的基础上再加10天
+
+```vim
+import datetime
+one_day = datetime.datetime(2020,1,20)
+new_date = datetime.timedelta(days=10)
+print(one_day + new_date)
+
+>>>
+2020-01-30 00:00:00
+```
+
+## Math-related 数学相关库
+
+1.`.math()` - Mathematical Functions
+
+用于ML DL，计算正弦值余弦值
+
+2.`.random()` - Generate pseudo-random numbers
+
+用于软件测试有限定条件的随机数
+
+`random.randint()`
+
+Example: 输出一个1-5之间的随机整数值
+
+```vim
+import random
+a = random.randint(1,5)
+
+print(a)
+```
+
+`random.choice([])`
+
+Example: 输出一个aa-cc的随机字符串
+
+```vim
+import random
+
+b = random.choice(['aa', 'bb', 'cc'])
+print(b)
+```
 
