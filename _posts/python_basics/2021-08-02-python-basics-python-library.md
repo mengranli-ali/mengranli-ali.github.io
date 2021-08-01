@@ -17,7 +17,7 @@ The **[Python Standard Library](https://docs.python.org/3/library/)**
 
 ### Regular Expression 正则表达式库re
 
-**1.匹配固定字符**
+#### **1.匹配固定字符**
 
 ```vim
 import re
@@ -33,7 +33,7 @@ print(ok)
 <_sre.SRE_Match object at 0x10ab71ed0>
 ```
 
-**2.匹配特殊字符***
+#### **2.匹配特殊字符***
 
 ```vim
 import re
@@ -50,7 +50,7 @@ print(ok)
 
 ```
 
-**3.正则表达式的元字符**
+#### **3.正则表达式的元字符**
 
 全部符合： `.`
 
@@ -243,7 +243,7 @@ print(ok)
 <_sre.SRE_Match object at 0x10b8ffe68>
 ```
 
-### Other symbols
+####  Other Symbols
 
 `\s` 匹配任意空白符
 
