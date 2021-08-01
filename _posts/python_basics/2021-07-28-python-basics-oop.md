@@ -166,6 +166,148 @@ Cat is child_class of Animal class
 
 猫继承了猫科动物所使用的方法, 因此猫科动物就是猫的父类, 猫就是猫科动物的子类。
 
+```vim
+class Monster():
+    # 定义monster class
+    # 初始属性
+    # hp=100 is initial attribute
+    def __init__(self, hp=100):
+        self.hp = hp
+
+    def run(self):
+        print('move to this position')
+
+
+# let subclass Animal to inherite class Monster
+class Animal(Monster):
+    # 在子类中定义属性
+    def __init__(self, hp=10):
+        self.hp = hp
+
+a1 = Monster(200)
+print(a1.hp)
+print(a1.run())
+a2 = Animal(1)
+print(a2.hp)
+print(a2.run())
+
+>>>
+200
+move to this position
+None
+1
+move to this position
+None
+```
+
+#### Super 
+
+super的作用：减少资源的浪费
+- 在父类中已经使用的方法 在子类中不必重复输入
+- self首先调用自身的方法，如果没有再去父类中找，super是直接从父类中找方法，那你的程序需要后者就需要super()函数了
+- 把父类的__init__()在子类 执行一遍，如果父类有__init__()且需要在子类使用，需要增加super这个方法
+
+在子类中hp属性不用重复初始化了:
+- 普通方法是 父类.__init__(self)
+- super方法是 super(子类, self).__init__()
+
+```vim
+class Animal(Monster):
+    # 在子类中定义属性
+    def __init__(self, hp=10):
+        super().__init__(hp)
+```
+
+### 多态
+
+如果子类和父类重名，子类会覆盖父类的方法，这个方法在运行过程中有多种状态，称之为多态。
+
+```vim
+class Monster():
+    # 定义monster class
+    # 初始属性
+    # hp=100 is initial attribute
+    def __init__(self, hp=100):
+        self.hp = hp
+
+    def run(self):
+        print('move to this position')
+
+    def whoami(self):
+        print('I am the parent class Monster')
+
+class Boss(Monster):
+    def __init__(self, hp=10000):
+        self.hp = hp
+    def whoami(self):
+        print('I am the monster hahaha')
+
+a3 = Boss(800)
+print(a3.hp)
+print(a3.whoami())
+
+>>>
+800
+I am the monster hahaha
+None
+```
+
+#### Test which is parent class or child class
+
+**1.type**
+
+```vim
+print('the type of a1 is %s' % type(a1))
+print('the type of a2 is %s' % type(a2))
+print('the type of a3 is %s' % type(a3))
+
+>>>
+the type of a1 is <type 'instance'>
+the type of a2 is <type 'instance'>
+the type of a3 is <type 'instance'>
+
+```
+
+**2.isinstance()**
+
+```vim
+print(isinstance(a2, Monster))
+
+>>>
+TRUE
+```
+
+### Customised With
+
+```vim
+class Testwith():
+    def __enter__(self):
+        print 'run'
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_tb is None:
+            print('ended smoothly')
+        else:
+            print('has error %s' % exc_tb)
+
+
+with Testwith():
+    print('Test is running')
+    raise NameError('testNameError')
+    
+>>>run
+>>>Test is running
+>>>has error <traceback object at 0x10faea3f8>
+Traceback (most recent call last):
+  File ""/Users/limengran/Library/Mobile Documents/com~apple~CloudDocs/PychamProject/with.py"", line 14, in <module>
+    raise NameError('testNameError')
+NameError: testNameError
+```
+
+
+
+
+
 
 
 
