@@ -13,7 +13,7 @@ tags:
 
 **library References**
 
-The **[python standard library]** (https://docs.python.org/3/library/)
+The **[Python Standard Library](https://docs.python.org/3/library/)** 
 
 ### Regular Expression 正则表达式库re
 
@@ -245,30 +245,33 @@ print(ok)
 
 ### Other symbols
 
-\s 匹配任意空白符
+`\s` 匹配任意空白符
 
-\d 匹配单个数字
+`\d` 匹配单个数字
 
-\d+ 匹配多个连续数字
+`\d+` 匹配多个连续数字
 
-\d{5} 匹配指定个数(5个)的数字
+`\d{5}` 匹配指定个数(5个)的数字
 
-\D 匹配不包含的数字
+`\D` 匹配不包含的数字
 
-() 小括号
+`()` 小括号
 - 2018-03-04提取年月份, 就要分组group
 - (2018) - (03) - (04)
 
-^$ 匹配空行
+`^$` 匹配空行
 
-.*? 匹配不适用贪婪模式:加上问号, 只会匹配到第一个image
+ `abc*` 贪婪模式：(_不加问号, 就会匹配所有的image_)
+
+_abcccccd_
+
+
+`.*?` 非贪婪模式匹配不适用贪婪模式:加上问号, 只会匹配到第一个image
 ```vim
 <img   /img>
 <img   /img>
 ```
 
-贪婪模式： abc* (_不加问号, 就会匹配所有的image_)
 
-_abcccccd_
 
 
