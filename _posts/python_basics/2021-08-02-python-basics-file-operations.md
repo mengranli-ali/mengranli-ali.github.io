@@ -116,7 +116,7 @@ mengrans-MBP:f mengran$
 
 ### `os` library
 
-####`os.path` - Common pathname manipulations
+#### `os.path` - Common pathname manipulations
 
 1.`os.path.abspath('.')`
 
