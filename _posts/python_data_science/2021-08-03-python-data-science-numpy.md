@@ -6,7 +6,8 @@ author: "Mengran"
 header-style: text
 tags:
   - Python
-  - Tensorflow
+  - Data Science
+  - NumPy
 ---
 
 ### NumPy
@@ -33,6 +34,62 @@ print(arr1.dtype)
 >>>[2 3 4]
 >>>int64
 ```
+
+#### Install NumPy
+
+use terminal and input `pip3 install numpy`
+
+```vim
+$ pip3 install numpy
+```
+
+#### NumPy array & data type
+
+NumPy的数组与数据类型
+
+`array` 列表已经过 NumPy 的封装, 所以在计算效率上更高:
+
+`Integer` - 整数int65:
+
+```vim
+import numpy as np
+
+arr1 = np.array([2,3,4])
+print(arr1)
+print (arr1.dtype)
+
+>>>
+[2 3 4]
+int64
+```
+
+
+`float` 浮点数/小数 float64:
+
+```vim
+import numpy as np
+
+arr2 = np.array([1.2, 2.3, 3.4])
+print(arr2.dtype)
+
+>>>
+[1.2 2.3 3.4]
+float64
+```
+
+`array + array` 列表array累加：
+
+```vim
+print(arr1 + arr2)
+
+>>>
+[3.2 5.3 7.4]
+```
+
+
+
+
+
 
 
 
