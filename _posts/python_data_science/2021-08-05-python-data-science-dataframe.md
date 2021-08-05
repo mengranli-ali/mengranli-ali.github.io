@@ -7,7 +7,6 @@ header-style: text
 tags:
   - Python
   - Data Science
-  - Series
   - Dataframe
   - Pandas
 ---
