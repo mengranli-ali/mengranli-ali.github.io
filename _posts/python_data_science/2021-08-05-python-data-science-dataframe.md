@@ -314,6 +314,106 @@ print(data2)
 2  0.0  0.0  0.0  0.0
 ```
 
+### Multi-layer indexing 层次化索引
+
+使用多层索引：
+- 第一层索引有a, b, c, d
+- 第二层索引有1，2，3。。
+
+```vim
+# 可以根据索引的层次来提取相应数据
+
+from pandas import Series, DataFrame
+import pandas as pd
+import numpy as np
+
+data = Series(np.random.randn(10),
+              index=[['a', 'a', 'a', 'b', 'b', 'b', 'c','c','d', 'd'],
+                     [1, 2, 3, 1, 2, 3, 1, 2, 2, 3]])
+                     
+print(data)
+
+>>>
+a  1   -0.202617
+   2    0.430599
+   3   -0.673567
+b  1   -1.988956
+   2   -1.258355
+   3   -0.337479
+c  1    0.539576
+   2   -0.174254
+d  2   -0.407340
+   3    0.292222
+dtype: float64
+```
+
+**Get values from layer index b**
+
+提取索引b层面下面的数值:
+
+```vim
+print (data['b'])
+
+>>>
+1   -0.252709
+2   -1.937952
+3    2.772455
+dtype: float64
+```
+
+**Get values from multiple layers**
+
+提取多个索引层面下的数值:
+
+```vim
+print (data['b':'c'])
+
+>>>
+b  1    1.102966
+   2    0.419484
+   3    0.693002
+c  1    0.198791
+   2   -0.692139
+```
+
+**Turn 1-dimensional Series into 2-dimensional Dataframe**
+
+`.unstack()` 将多层次索引一维Series转换为二维dataframe:
+
+```vim
+print (data.unstack())
+
+>>>
+        1         2         3
+a  0.551714 -0.523543 -0.268379
+b  1.538016 -0.013260  1.751864
+c  0.422605 -0.165455       NaN
+d       NaN -0.086555 -1.660403
+
+```
+
+**Turn Dataframe back to Series**
+
+`.unstack().stack()` 将dataframe再次转换回去Series:
+
+```vim
+print (data.unstack().stack())
+
+>>>
+a  1   -1.396839
+   2    0.026898
+   3   -1.322518
+b  1   -0.073874
+   2   -2.094649
+   3    0.495479
+c  1    1.659769
+   2   -0.463665
+d  2   -1.396547
+   3   -1.854931
+dtype: float64
+```
+
+
 
 
 
