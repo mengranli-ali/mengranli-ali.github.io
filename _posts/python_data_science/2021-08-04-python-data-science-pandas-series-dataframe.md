@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Python Data Science: Pandas, Series & Dataframe"
+title: "Python Data Science: Pandas and Series"
 subtitle: ''
 author: "Mengran"
 header-style: text
@@ -8,7 +8,6 @@ tags:
   - Python
   - Data Science
   - Series
-  - Dataframe
   - Pandas
 ---
 
@@ -190,4 +189,115 @@ dtype: int64
 如果python版本低于3.6或pandas版本低于0.23， 会出现重排，参考 [link](http://pandas.pydata.org/pandas-docs/stable/dsintro.html).
 
 
+### Cleaning data - Reindex Series & auto-fill
 
+**`reindex()` 对当前索引进行重新修改**
+
+```vim
+# define 4 elements and their index
+# 使用重新索引后新增索引e，所得到的value是NaN
+
+
+obj = Series([4.5, 7.2, -5.3, 3.5], index=['b', 'd', 'c', 'a'])
+obj1 = obj.reindex(['a', 'b', 'c', 'd', 'e'])
+print(obj1)
+
+>>>
+a    3.5
+b    4.5
+c   -5.3
+d    7.2
+e    NaN
+dtype: float64
+```
+
+**Auto-fill null after reindex 重新索引后将自动新增的空值自动填充为0**
+
+重新索引后新增索引为空值的话，自动填充为0，更方便数据清洗：
+
+`fill_value=0`
+
+```vim
+# define 4 elements and their index
+
+obj = Series([4.5, 7.2, -5.3, 3.5], index=['b', 'd', 'c', 'a'])
+obj1 = obj4.reindex(['a', 'b', 'c', 'd', 'e'], fill_value=0)
+print(obj1)
+
+>>>
+a    3.5
+b    4.5
+c   -5.3
+d    7.2
+e    0.0
+dtype: float64
+```
+
+**Auto-fill null with values from previous/next position**
+
+**自动填充靠近相邻的值 - 使用 `method='ffil'` 方法填充当前值的上一值或下一值**
+
+**1.Fill in with previous value 用前面一个值来填充 `ffil`:**
+
+```vim
+obj = Series(['blue', 'purple', 'yellow'], index=[0, 2, 4])
+print(obj.reindex(range(6)))
+
+print(obj.reindex(range(6), method='ffill'))
+
+>>>
+0      blue
+1       NaN
+2    purple
+3       NaN
+4    yellow
+5       NaN
+dtype: object
+
+0      blue
+1      blue
+2    purple
+3    purple
+4    yellow
+5    yellow
+dtype: object
+```
+
+**Fill in with value from next position 用后面一个值来填充 `bfil`**
+
+```vim
+obj2 = Series(['blue', 'purple', 'yellow'], index=[0, 2, 4])
+print(obj2.reindex(range(6)))
+print(obj2.reindex(range(6), method='bfill'))
+
+>>>
+0      blue
+1    purple
+2    purple
+3    yellow
+4    yellow
+5       NaN
+dtype: object
+```
+
+### Cleaning data - Delete NaN
+
+Import `nan` from `numpy` 从 `numpy` 中导入缺失值:
+
+```vim
+from numpy import nan as NA
+
+data = Series([1, NA, 2])
+print(data)
+print(data.dropna())
+
+>>>
+0    1.0
+1    NaN
+2    2.0
+dtype: float64
+
+0    1.0
+2    2.0
+dtype: float64
+```
