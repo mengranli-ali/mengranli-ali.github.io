@@ -13,23 +13,21 @@ tags:
 
 ### Tensorflow
 
-机器学习分类的原理
+**机器学习分类的原理**
 
-Tensorflow 库
+`Tensorflow` Module库
 
-training data 训练数据
+training data 训练数据:
 
-ax + by = c
+`ax + by = c`
 
-收集大量的x,y数据 并训练数据
+收集大量的x,y数据并训练数据:
 
-train x, train y
+`train x, train y`
 
-tes data 测试数据
+**test data 测试数据 - 测试模型是否能正常使用:**
 
-测试模型是否能正常使用
-
-test x,  test y
+`test x, test y`
 
 
 
