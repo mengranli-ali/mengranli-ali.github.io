@@ -17,7 +17,7 @@ tags:
 
 `Tensorflow` Module库
 
-training data 训练数据:
+**training data 训练数据:**
 
 `ax + by = c`
 
@@ -29,5 +29,9 @@ training data 训练数据:
 
 `test x, test y`
 
+**Layers:**
+- Input Layer
+- Hidden Layer
+- Output Layer: Probability of this type
 
 

@@ -22,6 +22,12 @@ It provides a high-performance multidimensional array object, and tools for work
 
 **NumPy** library 库 - 进行数据预处理, 用于高性能科学计算和数据分析，是常用的高级数据分析库的基础包。
 
+**Why using `Numpy` not `list` ?**
+- 这是因为列表 `list` 的元素在系统内存中是分散存储的，而 NumPy 数组存储在一个均匀连续的内存块中。这样数组计算遍历所有的元素，不像列表 list 还需要对内存地址进行查找，从而节省了计算资源。
+- Python 的列表 `list` 其实就是 `array` 数组。这样如果我要保存一个简单的数组`[0,1,2]`，就需要有 3 个指针和 3 个整数的对象，这样对于 Python 来说是非常不经济的，浪费了内存和计算时间。
+- `NumPy` 中的矩阵计算可以采用**多线程的方式**，充分利用多核 CPU 计算资源，大大提升了计算效率.
+
+
 Example:
 
 ```vim
@@ -42,6 +48,7 @@ use terminal and input `pip3 install numpy`
 ```vim
 $ pip3 install numpy
 ```
+
 
 #### NumPy array & data type
 
@@ -272,14 +279,109 @@ print(arr4)
 [ 0  1  2  3  4 10 10 10  8  9]
 ```
 
+### Two Objects in NumPy 
 
+**Two key objects in  `NumPy`：**
+- `ndarray`（N-dimensional array object）解决了多维数组问题。
+- `ufunc`（universal function object）则是解决对数组进行处理的函数。
 
+#### `ndarray` 对象
 
+`ndarray` 实际上是多维数组的含义。
 
+在 `NumPy` 数组中，维数称为秩（`rank`），一维数组的秩为 1，二维数组的秩为 2，以此类推。
 
+在 `NumPy` 中，每一个线性的数组称为一个轴（`axes`），其实秩就是描述轴的数量。
 
+Example:
+- `.shape` 属性获得数组的大小
+- `.dtype` 获得元素的属性
+- 对数组里的数值进行修改的话，直接赋值即可。下标是从 0 开始计的，所以如果你想对 b 数组，九宫格里的中间元素进行修改的话，下标应该是`[1,1]`。
 
+```vim
+import numpy as np
+a = np.array([1, 2, 3])
+b = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+b[1,1]=10
 
+print a.shape
+print b.shape
+print a.dtype
+print b
+
+>>>
+(3L,)
+(3L, 3L)
+int32
+[[ 1  2  3]
+ [ 4 10  6]
+ [ 7  8  9]]
+```
+
+**Structured Array：**
+
+**If calculating names, ages, subject grades of students in a class:**
+
+如果你想统计一个班级里面学生的姓名、年龄，以及语文、英语、数学成绩：
+
+通过 struct 定义结构类型，结构中的字段占据连续的内存空间，每个结构体占用的内存大小都相同
+
+首先在 `NumPy` 中是用 `dtype` 定义的结构类型，然后在定义数组的时候，用 array 中指定了结构数组的类型 `dtype=persontype`，这样可以自由地使用自定义的 `persontype` 。
+
+比如想知道每个人的语文成绩，就可以用 `chineses = peoples[:][‘chinese’]`。
+
+```vim
+import numpy as np
+
+persontype = np.dtype({
+    'names':['name', 'age', 'chinese', 'math', 'english'],
+    'formats':['S32','i', 'i', 'i', 'f']})
+
+peoples = np.array([("ZhangFei",32,75,100, 90),("GuanYu",24,85,96,88.5),
+       ("ZhaoYun",28,85,92,96.5),("HuangZhong",29,65,85,100)],
+    dtype=persontype)
+    
+ages = peoples[:]['age']
+chineses = peoples[:]['chinese']
+maths = peoples[:]['math']
+englishs = peoples[:]['english']
+
+print np.mean(ages)
+print np.mean(chineses)
+print np.mean(maths)
+print np.mean(englishs)
+
+>>>
+28.25
+77.5
+93.25
+93.75
+```
+
+#### `ufunc` 运算
+
+`ufunc` 是 `universal function` 的缩写，它能对数组中每个元素进行函数操作。`NumPy` 中很多 `ufunc` 函数计算速度非常快，因为都是采用 C 语言实现的。
+
+**1.Create continuous array 连续数组的创建**
+
+`np.arange` 和 `np.linspace` 起到的作用是一样的，都是创建等差数组。
+
+这两个数组的结果 `x1,x2` 都是`[1 3 5 7 9]`。结果相同，但是你能看出来创建的方式是不同的。
+- `arange()` 类似内置函数 `range()`，通过指定初始值、终值、步长来创建等差数列的一维数组，默认是不包括终值的。
+- `linspace` 是 `linear space` 的缩写，代表线性等分向量的含义。`linspace()` 通过指定初始值、终值、元素个数来创建等差数列的一维数组，默认是包括终值的。
+
+```vim
+import numpy as np
+
+x1 = np.arange(1,11,2)
+x2 = np.linspace(1,9,5)
+
+print(x1)
+print(x2)
+>>>
+[1 3 5 7 9]
+[1 3 5 7 9]
+```
 
 
 
