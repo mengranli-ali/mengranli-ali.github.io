@@ -416,7 +416,7 @@ How to use statistical func in Numpy:
 - To have a clear understanding of data, we need to use descriptive statistics 描述性统计分析
 - For example, Maximum/Minimum/Mean of data, 比如了解这些数据中的最大值、最小值、平均值，是否符合正态分布，方差、标准差多少等等。
 
-##### amax(),amin()
+###### amax(),amin()
 
 计数组 / 矩阵中的最大值函数 amax()，最小值函数 amin()
 - amin() 用于计算数组中的元素沿指定轴的最小值。
@@ -447,7 +447,7 @@ print np.amax(a,1)
 [3 6 9]
 ```
 
-##### ptp()
+###### ptp()
 
 计最大值与最小值之差 ptp()
 - np.ptp(a) 可以统计数组中最大值与最小值的差，即 9-1=8
