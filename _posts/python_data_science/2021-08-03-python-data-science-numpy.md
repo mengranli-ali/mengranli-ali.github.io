@@ -10,7 +10,7 @@ tags:
   - NumPy
 ---
 
-### NumPy
+## NumPy
 
 **NumPy** is a Python library used for working with arrays. It is the core library for scientific computing in Python. 
 
@@ -41,7 +41,7 @@ print(arr1.dtype)
 >>>int64
 ```
 
-#### Install NumPy
+### Install NumPy
 
 use terminal and input `pip3 install numpy`
 
@@ -50,7 +50,7 @@ $ pip3 install numpy
 ```
 
 
-#### NumPy array & data type
+### NumPy array & data type
 
 NumPy的数组与数据类型
 
@@ -98,7 +98,7 @@ print(arr1 + arr2)
 [3.2 5.3 7.4]
 ```
 
-#### NumPy Matrix Calculation
+### NumPy Matrix Calculation
 
 NumPy的数组与标量的计算:
 
@@ -217,7 +217,7 @@ print(np.empty((2,3,2)))
   [ 0.00000000e+000  0.00000000e+000]]]
 ```
 
-#### NumPy Slicing and Indexing
+### NumPy Slicing and Indexing
 
 NumPy的索引和切片
 
@@ -279,13 +279,13 @@ print(arr4)
 [ 0  1  2  3  4 10 10 10  8  9]
 ```
 
-### Two Objects in NumPy 
+## Two Objects in NumPy 
 
 **Two key objects in  `NumPy`：**
 - `ndarray`（N-dimensional array object）解决了多维数组问题。
 - `ufunc`（universal function object）则是解决对数组进行处理的函数。
 
-#### `ndarray` 对象
+### `ndarray` 对象
 
 `ndarray` 实际上是多维数组的含义。
 
@@ -358,7 +358,7 @@ print np.mean(englishs)
 93.75
 ```
 
-#### `ufunc` 运算
+### `ufunc` 运算
 
 `ufunc` 是 `universal function` 的缩写，它能对数组中每个元素进行函数操作。`NumPy` 中很多 `ufunc` 函数计算速度非常快，因为都是采用 C 语言实现的。
 
@@ -416,7 +416,7 @@ How to use statistical func in Numpy:
 - To have a clear understanding of data, we need to use descriptive statistics 描述性统计分析
 - For example, Maximum/Minimum/Mean of data, 比如了解这些数据中的最大值、最小值、平均值，是否符合正态分布，方差、标准差多少等等。
 
-##### **amax(),amin()**
+#### amax(),amin()
 
 计数组 / 矩阵中的最大值函数 amax()，最小值函数 amin()
 - amin() 用于计算数组中的元素沿指定轴的最小值。
@@ -447,7 +447,7 @@ print np.amax(a,1)
 [3 6 9]
 ```
 
-##### **ptp()**
+#### ptp()
 
 计最大值与最小值之差 ptp()
 - np.ptp(a) 可以统计数组中最大值与最小值的差，即 9-1=8
