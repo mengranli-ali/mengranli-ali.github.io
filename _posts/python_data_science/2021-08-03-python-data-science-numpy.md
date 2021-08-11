@@ -383,10 +383,90 @@ print(x2)
 [1 3 5 7 9]
 ```
 
+**2.Basic Calculations 算数运算** 
+
+通过 NumPy 可以自由地创建等差数组, 也可以进行加、减、乘、除、求 n 次方和取余数。
+
+在取余函数里，你既可以用 `np.remainder(x1, x2)`，也可以用 `np.mod(x1, x2)`，结果是一样的。
+
+```vim
+x1 = np.arange(1,11,2)
+x2 = np.linspace(1,9,5)
+
+print np.add(x1, x2)
+print np.subtract(x1, x2)
+print np.multiply(x1, x2)
+print np.divide(x1, x2)
+print np.power(x1, x2)
+print np.remainder(x1, x2)
+
+>>>
+[ 2.  6. 10. 14. 18.]
+[0. 0. 0. 0. 0.]
+[ 1.  9. 25. 49. 81.]
+[1. 1. 1. 1. 1.]
+[1.00000000e+00 2.70000000e+01 3.12500000e+03 8.23543000e+05
+ 3.87420489e+08]
+[0. 0. 0. 0. 0.]
+```
+
+**3.Statistical Func in Numpy 统计函数**
+
+How to use statistical func in Numpy:
+- To have a clear understanding of data, we need to use descriptive statistics 描述性统计分析
+- For example, Maximum/Minimum/Mean of data, 比如了解这些数据中的最大值、最小值、平均值，是否符合正态分布，方差、标准差多少等等。
+
+##### amax(),amin()
+
+计数组 / 矩阵中的最大值函数 amax()，最小值函数 amin()
+- amin() 用于计算数组中的元素沿指定轴的最小值。
+- 对于一个二维数组 a，amin(a) 指的是数组中全部元素的最小值
+- **amin(a,0) 是延着 axis=0 轴的最小值**，axis=0 轴是把元素看成了`[1,4,7], [2,5,8], [3,6,9]`三个元素，所以最小值为`[1,2,3]`。
+- amin(a,1) 是延着 axis=1 轴的最小值，axis=1 轴是把元素看成了`[1,2,3], [4,5,6], [7,8,9]`三个元素，所以最小值为`[1,4,7]`。
+- 同理 amax() 是计算数组中元素沿指定轴的最大值。
+- axis=0 means 纵列
+- axis=1 means 横行
+
+```vim
+import numpy as np
+a = np.array([[1,2,3], [4,5,6], [7,8,9]])
+
+print np.amin(a)
+print np.amin(a,0)
+print np.amin(a,1)
+print np.amax(a)
+print np.amax(a,0)
+print np.amax(a,1)
+
+>>>
+1
+[1 2 3]
+[1 4 7]
+9
+[7 8 9]
+[3 6 9]
+```
+
+##### ptp()
+
+计最大值与最小值之差 ptp()
+- np.ptp(a) 可以统计数组中最大值与最小值的差，即 9-1=8
+- ptp(a,0) 统计的是沿着 axis=0 轴的最大值与最小值之差，即 7-1=6（当然 8-2=6,9-3=6，第三行减去第一行的 ptp 差均为 6
+- ptp(a,1) 统计的是沿着 axis=1 轴的最大值与最小值之差，即 3-1=2（当然 6-4=2, 9-7=2，即第三列与第一列的 ptp 差均为 2
 
 
+```vim
+import numpy as np
+a = np.array([[1,2,3], [4,5,6], [7,8,9]])
 
+print np.ptp(a)
+print np.ptp(a,0)
+print np.ptp(a,1)
 
-
+>>>
+8
+[6 6 6]
+[2 2 2]
+```
 
 
