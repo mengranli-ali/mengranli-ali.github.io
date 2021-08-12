@@ -490,5 +490,76 @@ print np.percentile(a, 50, axis=1)
 [2. 5. 8.]
 ```
 
+**median(), mean()**
 
+统计数组中的中位数, 平均数
+
+```vim
+import numpy as np
+a = np.array([[1,2,3], [4,5,6], [7,8,9]])
+
+# median
+print np.median(a)
+print np.median(a, axis=0)
+print np.median(a, axis=1)
+
+# mean
+print np.mean(a)
+print np.mean(a, axis=0)
+print np.mean(a, axis=1)
+
+>>>
+5.0
+[4. 5. 6.]
+[2. 5. 8.]
+5.0
+[4. 5. 6.]
+[2. 5. 8.]
+```
+
+**average()**
+
+统计数组中的加权平均值:
+- `average()` 函数可以求加权平均
+- 加权平均的意思就是每个元素可以设置个权重，默认情况下每个元素的权重是相同的
+- 所以 `np.average(a)=(1+2+3+4)/4=2.5`
+
+指定权重数组：
+- 你也可以指定权重数组 `wts=[1,2,3,4]`
+- 这样加权平均 `np.average(a,weights=wts)=(1*1+2*2+3*3+4*4)/(1+2+3+4)=3.0`
+
+```vim
+import numpy as np
+a = np.array([1,2,3,4])
+wts = np.array([1,2,3,4])
+
+print np.average(a)
+print np.average(a,weights=wts)
+
+>>>
+2.5
+3.0
+```
+
+**std(), var()**
+
+统计数组中的标准差,方差:
+- 方差的计算是指每个数值与平均值之差的平方求和的平均值
+- 即 `mean((x - x.mean())** 2)`
+
+标准差是方差的算术平方根:
+- 在数学意义上，代表的是一组数据离平均值的分散程度。
+- 所以 `np.var(a)=1.25`, `np.std(a)=1.118033988749895`
+
+```vim
+import numpy as np
+a = np.array([1,2,3,4])
+
+print np.std(a)
+print np.var(a)
+
+>>>
+1.118033988749895
+1.25
+```
 
