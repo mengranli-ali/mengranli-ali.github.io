@@ -416,7 +416,7 @@ How to use statistical func in Numpy:
 - To have a clear understanding of data, we need to use descriptive statistics 描述性统计分析
 - For example, Maximum/Minimum/Mean of data, 比如了解这些数据中的最大值、最小值、平均值，是否符合正态分布，方差、标准差多少等等。
 
-#### amax(),amin()
+**amax(),amin()**
 
 计数组 / 矩阵中的最大值函数 amax()，最小值函数 amin()
 - amin() 用于计算数组中的元素沿指定轴的最小值。
@@ -447,7 +447,7 @@ print np.amax(a,1)
 [3 6 9]
 ```
 
-#### ptp()
+**ptp()**
 
 计最大值与最小值之差 ptp()
 - np.ptp(a) 可以统计数组中最大值与最小值的差，即 9-1=8
@@ -468,5 +468,27 @@ print np.ptp(a,1)
 [6 6 6]
 [2 2 2]
 ```
+
+**percentile()**
+
+统计数组的百分位数 - percentile() 代表着第 p 个百分位数：
+- 这里 p 的取值范围是 0-100，如果 p=0，那么就是求最小值
+- 如果 p=50 就是求平均值，如果 p=100 就是求最大值。
+- 同样也可以在 axis=0 和 axis=1 两个轴上的 p% 的百分位数。
+
+```vim
+import numpy as np
+a = np.array([[1,2,3], [4,5,6], [7,8,9]])
+
+print np.percentile(a, 50)
+print np.percentile(a, 50, axis=0)
+print np.percentile(a, 50, axis=1)
+
+>>>
+5.0
+[4. 5. 6.]
+[2. 5. 8.]
+```
+
 
 
