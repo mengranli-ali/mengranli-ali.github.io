@@ -563,3 +563,153 @@ print np.var(a)
 1.25
 ```
 
+### NumPy Sorting
+
+使用 `sort` 函数: `sort(a, axis=-1, kind=‘quicksort’, order=None)`，默认情况下使用的是快速排序。
+
+在 `kind` 里，可以指定 `quicksort`、`mergesort`、`heapsort` 分别表示快速排序、合并排序、堆排序。
+
+同样 `axis` 默认是 `-1`，即沿着数组的最后一个轴进行排序，也可以取不同的 `axis` 轴，或者 `axis=None` 代表采用扁平化的方式作为一个向量进行排序。
+
+另外 `order` 字段，对于结构化的数组可以指定按照某个字段进行排序。
+
+#### Axis
+
+Axis就是数组层级，在Numpy中，dimensions指代的是数组的维数。
+- axis=0 是跨行（纵向）
+- axis=1 是跨列（横向）
+
+这个array的维数只有2，即axis轴有两个，分别是axis=0和axis=1
+
+如下图所示，该二维数组的第0维(axis=0)有三个元素，即axis=0轴的长度length为3
+
+第1维(axis=1)也有三个元素，即axis=1轴的长度length为3。
+
+正是因为axis=0、axis=1的长度都为3，矩阵横着竖着都有3个数，所以该矩阵在线性代数是3维的(rank秩为3)。
+
+```vim
+array([[1, 2, 3],
+       [2, 3, 4],
+       [3, 4, 9]])
+```
+
+```vim
+import numpy as np
+a = np.array([[4,3,2],[2,4,1]])
+
+print np.sort(a)
+print np.sort(a, axis=None)
+print np.sort(a, axis=0)  
+print np.sort(a, axis=1) 
+
+>>>
+[[2 3 4]
+ [1 2 4]]
+[1 2 2 3 4 4]
+[[2 3 1]
+ [4 4 2]]
+[[2 3 4]
+ [1 2 4]]
+```
+
+```vim
+import numpy as np
+a = np.array([1, 2, 3])
+b = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+b[1, 1] = 10
+b[0, 1] = 11
+b[1, 0] = 12
+b[1, 2] = 99
+
+print(a.shape)
+print(b.shape)
+print(a.dtype)
+print(b)
+
+>>>
+(3,)
+(3, 3)
+int64
+[[ 1 11  3]
+ [12 10 99]
+ [ 7  8  9]]
+```
+
+**How to use Axis?**
+
+Example: 4 people scored the preference of 3 fruits, with total score of 10 points. 
+
+例如现在我们收集了四个同学对苹果、榴莲、西瓜这三种水果的喜爱程度进行打分的数据（总分为10），每个同学都有三个特征：
+
+```vim
+item = np.array([[1,4,8],[2,3,5],[2,5,1],[1,10,7]])
+
+array([[1, 4, 8],
+       [2, 3, 5],
+       [2, 5, 1],
+       [1, 10, 7]])
+```
+
+每一行包含了同一个人的三个特征，如果我们想看看哪个同学最喜欢吃水果，那就可以用：
+
+`item.sum(axis = 1)`
+
+可以大概看出来同学4最喜欢吃水果:
+
+`array([13, 10,  8, 18])`
+
+哪种水果最受欢迎：
+
+`item.sum(axis = 0)`
+
+可以看出基本是榴莲最受欢迎:
+`
+array([ 6, 22, 21])`
+
+
+
+#### Practice
+
+**Example: Using NumPy to calculate Mean, Median, Max, Min, Variance, Std Deviation**
+
+```vim
+import numpy as np
+a = np.array([[4,3,2],[2,4,1]])
+
+print(np.sort(a))
+print(np.sort(a, axis=None))
+print(np.sort(a, axis=0))
+print(np.sort(a, axis=1))
+
+print("\npart 6 作业\n")
+
+persontype = np.dtype({
+    'names':['name', 'chinese','english','math' ],
+    'formats':['S32', 'i', 'i', 'i']})
+peoples = np.array([("ZhangFei",66,65,30),("GuanYu",95,85,98),
+       ("ZhaoYun",93,92,96),("HuangZhong",90,88,77),
+       ("DianWei",80,90,90)],dtype=persontype)
+       
+#指定的竖列
+name = peoples[:]['name']
+chinese = peoples[:]['chinese']
+english = peoples[:]['english']
+math = peoples[:]['math']
+
+#定义函数用于显示每一排的内容
+def show(name,cj):
+    print('{} | {} | {} | {} | {} | {} '
+          .format(name,np.mean(cj),np.min(cj),np.max(cj),np.var(cj),np.std(cj)))
+
+print("科目 | 平均成绩 | 最小成绩 | 最大成绩 | 方差 | 标准差")
+show("语文", chinese)
+show("英语", english)
+show("数学", math)
+
+print("排名:")
+
+#用sorted函数进行排序
+ranking = sorted(peoples,key=lambda x:x[1]+x[2]+x[3], reverse=True)
+print(ranking)
+
+```
