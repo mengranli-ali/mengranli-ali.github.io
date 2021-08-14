@@ -487,7 +487,7 @@ print(score)
 - Drop repetitive values
 - Formatting and reformatting
 
-#### 1.Delete unnecessary rows/columns in dataframe
+#### Delete unnecessary rows/columns in dataframe
 
 删除 DataFrame 中的不必要的列或行:
 
@@ -529,9 +529,218 @@ DianWei          90    90       80
 
 ```
 
+#### Rename columns to make it more recognisable
 
+重命名列名 `columns`，让列表名更容易识别:
 
+`.rename(columns=new_names, inplace=True)`
 
+`.rename(columns={'old_names1': 'new_names1', 'old_names2': 'new_names2'})`
 
+Example:
+
+```vim
+data = {'Chinese': [66, 95, 93, 90,80],'English': [65, 85, 92, 88, 90],'Math': [30, 98, 96, 77, 90]}
+df1 = DataFrame(data, index=['ZhangFei', 'GuanYu', 'ZhaoYun', 'HuangZhong', 'DianWei'], columns=['English', 'Math', 'Chinese'])
+
+df1.rename(columns={'Chinese': 'YuWen', 'English': 'Yingyu'}, inplace = True)
+```
+
+#### Drop repetitive values
+
+```drop_duplicates()```
+
+数据采集可能存在重复的行，这时只要使用 `drop_duplicates()` 就会自动把重复的行去掉。
+
+```vim
+#去除重复行
+df = df.drop_duplicates() 
+
+```
+
+#### Formatting & Reformatting
+
+**1.Change data format 更改数据格式**
+
+`.astype()`
+
+```vim
+import pandas as pd
+import numpy as np
+from pandas import Series, DataFrame
+
+data = {'Chinese': [66, 95, 93, 90,80],'English': [65, 85, 92, 88, 90],'Math': [30, 98, 96, 77, 90]}
+df1 = DataFrame(data, index=['ZhangFei', 'GuanYu', 'ZhaoYun', 'HuangZhong', 'DianWei'], columns=['English', 'Math', 'Chinese'])
+
+df4 = df1['Chinese'].astype('str')
+df5 = df1['Chinese'].astype(np.int64)
+
+print(df4)
+print(df5)
+
+>>>
+ZhangFei      66
+GuanYu        95
+ZhaoYun       93
+HuangZhong    90
+DianWei       80
+Name: Chinese, dtype: object
+
+ZhangFei      66
+GuanYu        95
+ZhaoYun       93
+HuangZhong    90
+DianWei       80
+Name: Chinese, dtype: int64
+
+```
+
+**2.Turn blank into other values 处理数据间的空格**
+
+有时候我们先把格式转成了 `str` 类型，是为了方便对数据进行操作
+
+这时想要删除数据间的空格，我们就可以使用` strip `函数：
+
+`.map(str.strip)`
+`.map(str.lstrip)`
+`.map(str.rstrip)`
+
+```vim
+#删除左右两边空格
+df1['Chinese']=df1['Chinese'].map(str.strip)
+
+#删除左边空格
+df1['Chinese']=df1['Chinese'].map(str.lstrip)
+
+#删除右边空格
+df1['Chinese']=df1['Chinese'].map(str.rstrip)
+
+```
+
+**Delete special symbols/characters:**
+
+Example: Delete `$` in `Chinese` column
+
+`.str.strip('$')`
+
+```vim
+df1['Chinese']=df1['Chinese'].str.strip('$')
+```
+
+**Uppercase & Lowercase**
+
+大小写是个比较常见的操作，比如人名、城市名等的统一都可能用到大小写的转换
+
+在 Python 里直接使用 `upper()`, `lower()`,` title()` 函数
+
+```vim
+#全部大写
+df2.columns = df2.columns.str.upper()
+
+#全部小写
+df2.columns = df2.columns.str.lower()
+
+#首字母大写
+df2.columns = df2.columns.str.title()
+
+```
+
+**Uppercase in both index & columns**
+
+```vim
+import pandas as pd
+import numpy as np
+from pandas import Series, DataFrame
+
+data = {'Chinese': [66, 95, 93, 90,80],'English': [65, 85, 92, 88, 90],'Math': [30, 98, 96, 77, 90]}
+df1 = DataFrame(data, index=['ZhangFei', 'GuanYu', 'ZhaoYun', 'HuangZhong', 'DianWei'], columns=['English', 'Math', 'Chinese'])
+
+df1.columns = df1.columns.str.upper()
+df1.index = df1.index.str.upper()
+
+print(df1)
+
+>>>
+            ENGLISH  MATH  CHINESE
+ZHANGFEI         65    30       66
+GUANYU           85    98       95
+ZHAOYUN          92    96       93
+HUANGZHONG       88    77       90
+DIANWEI          90    90       80
+
+```
+
+**Look for null/NaN**
+
+数据量大的情况下，有些字段存在空值 `NaN` 的可能
+
+这时就需要使用 `Pandas` 中的 `isnull` 函数进行查找。
+
+1.Look for null values:
+
+`df.isnull()`
+
+it will return `False`/`True`
+
+2.look for which columns include null values 
+
+`df.isnull().any()`
+
+it will return `False`/`True`
+
+#### Using apply() to clean data
+
+**使用 `apply` 函数对数据进行清洗**
+
+`apply()` 函数是 `Pandas` 中自由度非常高的函数，使用频率也非常高。
+
+比如我们想对 `name` 列的数值都进行大写转化可以用：
+
+```vim
+df['name'] = df['name'].apply(str.upper)
+```
+
+我们也可以定义个函数，在 `apply` 中进行使用:
+
+比如定义 `double_df` 函数是将原来的数值 `*2` 进行返回。然后对 `df1` 中的“语文”列的数值进行 `*2` 处理
+
+```vim
+def double_df(x):
+    return 2*x
+           
+df1[u'语文'] = df1[u'语文'].apply(double_df)
+
+```
+
+也可以定义更复杂的函数 To define more complicated func:
+
+比如对于 DataFrame，我们新增两列:
+- 'new1'列是“语文”和“英语”成绩之和的 m 倍
+- 'new2'列是“语文”和“英语”成绩之和的 n 倍
+- axis=1 代表按照列为轴进行操作
+- axis=0 代表按照行为轴进行操作
+- args 是传递的两个参数，即 n=2, m=3，在 plus 函数中使用到了 n 和 m，从而生成新的 df
+
+```vim
+def plus(df,n,m):
+    df['new1'] = (df[u'语文']+df[u'英语']) * m
+    df['new2'] = (df[u'语文']+df[u'英语']) * n
+    return df
+    
+df1 = df1.apply(plus,axis=1,args=(2,3,))
+
+>>>
+
+```
+
+### Calculating data
+
+数据统计:
+
+`Pandas` 和 `NumPy` 一样，都有常用的统计函数,
+
+如果遇到空值 `NaN`，会自动排除。
+
+`Commonly-used func:`
 
 
