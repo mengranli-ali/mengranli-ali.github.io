@@ -352,7 +352,7 @@ print(data2)
 2  0.0  0.0  0.0  0.0
 ```
 
-### Multi-layer indexing 层次化索引
+#### Multi-layer indexing 层次化索引
 
 使用多层索引：
 - 第一层索引有a, b, c, d
@@ -451,6 +451,83 @@ d  2   -1.396547
 dtype: float64
 ```
 
+### Import/Output Data
+
+**数据导入和输出:**
+
+`Pandas` allows you to import data from  `xlsx`，`csv` file formats.
+
+`pd.read_excel()`
+
+`Pandas` can also export data to files in `xlsx`, `csv` formats。
+
+`.to_excel()`
+
+If missing packages like `xlrd`, `openpyxl` while running, you can use command `pip install` to install these.
+
+```vim
+import pandas as pd
+from pandas import Series, DataFrame
+
+score = DataFrame(pd.read_excel('data.xlsx'))
+score.to_excel('data1.xlsx')
+
+print(score)
+
+```
+
+### Cleaning Data
+
+**数据清洗：**
+
+**There are several scenarios when cleaning data:**
+
+- Delete unnecessary rows/columns in dataframe
+- Rename columns to make it more recognisable
+- Drop repetitive values
+- Formatting and reformatting
+
+#### 1.Delete unnecessary rows/columns in dataframe
+
+删除 DataFrame 中的不必要的列或行:
+
+`.drop()`
+
+```vim
+import pandas as pd
+from pandas import Series, DataFrame
+
+data = {'Chinese': [66, 95, 93, 90,80],'English': [65, 85, 92, 88, 90],'Math': [30, 98, 96, 77, 90]}
+df1 = DataFrame(data, index=['ZhangFei', 'GuanYu', 'ZhaoYun', 'HuangZhong', 'DianWei'], columns=['English', 'Math', 'Chinese'])
+
+# drop columns
+df2 = df1.drop(columns=['Chinese'])
+
+# drop rows/index
+df3 = df1.drop(index=['ZhangFei'])
+
+>>>
+            English  Math  Chinese
+ZhangFei         65    30       66
+GuanYu           85    98       95
+ZhaoYun          92    96       93
+HuangZhong       88    77       90
+DianWei          90    90       80
+
+            English  Math
+ZhangFei         65    30
+GuanYu           85    98
+ZhaoYun          92    96
+HuangZhong       88    77
+DianWei          90    90
+
+            English  Math  Chinese
+GuanYu           85    98       95
+ZhaoYun          92    96       93
+HuangZhong       88    77       90
+DianWei          90    90       80
+
+```
 
 
 
