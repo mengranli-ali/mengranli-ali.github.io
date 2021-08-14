@@ -13,7 +13,11 @@ tags:
 
 ### Dataframe
 
-`Dataframe` is multiple-dimensional `array` of `Pandas`.
+**`DataFrame` 类型数据结构类似数据库表。**
+- 包括了行索引和列索引
+- 可以将 `DataFrame` 看成是由相同索引的 `Serie`s 组成的**字典**类型。
+
+**`Dataframe` is multiple-dimensional `array` of `Pandas`.**
 
 The structure of `dataframe` is a `dictionary`; Then it will print out a table.
 
@@ -41,6 +45,40 @@ print(frame)
 3   beijing  2.4  2017
 4   beijing  2.9  2018
 ```
+
+**Example 2: Input candidates' scores on each subject**
+
+- df1: input based on normal index 0, 1, 2, 3...
+- df2: input based on selected index & columns in customised order
+- 以例子中的 df2 为例，列索引是`[‘English’, ‘Math’, ‘Chinese’]`，行索引是`[‘ZhangFei’, ‘GuanYu’, ‘ZhaoYun’, ‘HuangZhong’, ‘DianWei’]`
+
+```vim
+import pandas as pd
+from pandas import Series, DataFrame
+
+data = {'Chinese': [66, 95, 93, 90,80],'English': [65, 85, 92, 88, 90],'Math': [30, 98, 96, 77, 90]}
+df1= DataFrame(data)
+df2 = DataFrame(data, index=['ZhangFei', 'GuanYu', 'ZhaoYun', 'HuangZhong', 'DianWei'], columns=['English', 'Math', 'Chinese'])
+
+print(df1)
+print(df2)
+
+>>>
+   Chinese  English  Math
+0       66       65    30
+1       95       85    98
+2       93       92    96
+3       90       88    77
+4       80       90    90
+
+            English  Math  Chinese
+ZhangFei         65    30       66
+GuanYu           85    98       95
+ZhaoYun          92    96       93
+HuangZhong       88    77       90
+DianWei          90    90       80
+```
+
 
 #### Sorting in dataframe
 
