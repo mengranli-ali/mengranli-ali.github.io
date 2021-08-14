@@ -11,7 +11,22 @@ tags:
   - Pandas
 ---
 
+
+**Pandas 可以说是基于 `NumPy` 构建的含有更高级数据结构和分析能力的工具包**
+
+**在数据分析工作中，Pandas 的使用频率是很高的:**
+- 一方面是因为 Pandas 提供的基础数据结构 DataFrame 与 json 的契合度很高，转换起来就很方便。
+- 另一方面，如果我们日常的数据清理工作不是很复杂的话，你通常用几句 Pandas 代码就可以对数据进行规整。
+- Pandas 可以说是基于 NumPy 构建的含有更高级数据结构和分析能力的工具包。
+
+`Series` 和 `DataFrame` 这两个核心数据结构，他们分别代表着一维的序列和二维的表结构。
+
+
 ### Pandas
+
+**数据结构: `Series` 和 `DataFrame`**
+
+基于这两种数据结构，`Pandas` 可以对数据进行导入、清洗、处理、统计和输出。
 
 `Pandas` 用于数据预处理和数据清洗
 
@@ -35,6 +50,12 @@ import pandas as pd
 
 `Series` is `Pandas` one-dimensional array; 它对`Numpy`的`array`进行封装
 
+**Series 是个定长的字典序列。**
+- 说是定长是因为在存储的时候，相当于两个 `ndarray`，这也是和字典结构最大的不同。
+- 因为在字典的结构里，元素的个数是不固定的。`Series` 有两个基本属性：`index` 和 `values`。
+- 在 `Series` 结构中，`index` 默认是 `0,1,2,……` 递增的整数序列，当然我们也可以自己来指定索引，比如 `index=[‘a’, ‘b’, ‘c’, ‘d’]`。
+
+
 ```vim
 from pandas import Series, DataFrame
 import pandas as pd
@@ -48,6 +69,43 @@ print(obj)
 1    5
 2    8
 3   -1
+```
+
+```vim
+import pandas as pd
+from pandas import Series, DataFrame
+
+x1 = Series([1,2,3,4])
+x2 = Series(data=[1,2,3,4], index=['a', 'b', 'c', 'd'])
+
+print x1
+print x2
+
+>>>
+0    1
+1    2
+2    3
+3    4
+dtype: int64
+a    1
+b    2
+c    3
+d    4
+dtype: int64
+```
+
+这个例子中，x1 中的 index 采用的是默认值，x2 中 index 进行了指定。
+
+我们也可以采用字典的方式来创建 Series，比如：
+
+```vim
+d = {'a':1, 'b':2, 'c':3, 'd':4}
+x3 = Series(d)
+
+print x3 
+
+>>>
+
 ```
 
 **Indexing Series 单独对Series进行索引取值**
