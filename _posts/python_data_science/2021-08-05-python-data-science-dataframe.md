@@ -741,6 +741,25 @@ df1 = df1.apply(plus,axis=1,args=(2,3,))
 
 如果遇到空值 `NaN`，会自动排除。
 
-`Commonly-used func:`
+**Commonly-used func:**
+
+- `count()` - count numbers without NaN
+- `describe()` - multiple statistics including count, mean, std, min, max etc.
+- `min()` - minimum value
+- `max()` - maximum value
+- `sum()` - total value
+- `mean()` - average 平均值
+- `median()` - 中位数
+- `var()` - variance 方差
+- `std()` - standard variation 标准差
+- `argmin()` - index position of minimum value 统计最小值的索引位置
+- `argmax()` - index position of maximum value 统计最大值的索引位置
+- `idxmin()` - index value of minimum value 统计最小值的索引值
+- `idxma()` - index value of maximum value 统计最大值的索引值
+
+
+
+
+
 
 
