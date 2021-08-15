@@ -11,6 +11,25 @@ tags:
   - Pandas
 ---
 
+**Pandas最主要的两个数据结构：Series，DataFrame**
+
+**Series提供：index,values,map**
+
+**DataFrame常用的函数：**
+- `describe()` 统计性描述
+- `drop_duplicates()` 删除重复行
+- `rename(columns=...)` 更名
+- `dropna()` 删除具有空的行
+- `isnull()` 判断空值
+- `fillna()` 填充空值
+- `apply()` 应用函数
+- `merge()` 合并df
+- `value_counts()` 统计某列的各类型个数
+- `read_excel() to_excel()` 读取和保存excel
+- `set_index()` 设置索引
+- `cut` 分组
+
+
 ### Dataframe
 
 **`DataFrame` 类型数据结构类似数据库表。**
@@ -733,7 +752,7 @@ df1 = df1.apply(plus,axis=1,args=(2,3,))
 
 ```
 
-### Calculating data
+### Calculating Data
 
 数据统计:
 
@@ -741,7 +760,7 @@ df1 = df1.apply(plus,axis=1,args=(2,3,))
 
 如果遇到空值 `NaN`，会自动排除。
 
-**Commonly-used func:**
+#### Commonly-used func
 
 - `count()` - count numbers without NaN
 - `describe()` - multiple statistics including count, mean, std, min, max etc.
@@ -756,6 +775,171 @@ df1 = df1.apply(plus,axis=1,args=(2,3,))
 - `argmax()` - index position of maximum value 统计最大值的索引位置
 - `idxmin()` - index value of minimum value 统计最小值的索引值
 - `idxma()` - index value of maximum value 统计最大值的索引值
+
+**Example:** `.describe()`
+
+```vim
+import pandas as pd
+import numpy as np
+from pandas import Series, DataFrame
+
+df1 = DataFrame({'name':['david', 'lily', 'a', 'b', 'c'], 'data1':range(5)})
+
+print(df1)
+print(df1.describe())
+
+>>>
+       name  data1
+0  ZhangFei      0
+1    GuanYu      1
+2         a      2
+3         b      3
+4         c      4
+
+          data1
+count  5.000000
+mean   2.000000
+std    1.581139
+min    0.000000
+25%    1.000000
+50%    2.000000
+75%    3.000000
+max    4.000000
+```
+
+### Join Data Tables 
+
+数据表合并:
+
+一个 DataFrame 相当于一个数据库的数据表，那么多个 DataFrame 数据表的合并就相当于多个数据库的表合并。
+
+**How to join two dataframe table?**
+
+`.merge()`
+
+**1. merge dataframes based on one column**
+
+基于指定列进行连接:
+
+`.merge(df1, df2, on='column_name')`
+
+```vim
+import pandas as pd
+import numpy as np
+from pandas import Series, DataFrame
+
+df1 = DataFrame({'name':['ZhangFei', 'GuanYu', 'a', 'b', 'c'], 'data1':range(5)})
+df2 = DataFrame({'name':['ZhangFei', 'GuanYu', 'A', 'B', 'C'], 'data2':range(5)})
+
+df3 = pd.merge(df1, df2, on='name')
+
+print(df3)
+
+>>>
+       name  data1  data2
+0  ZhangFei      0      0
+1    GuanYu      1      1
+```
+
+**2.use inner to merge dataframes**
+
+inner 内链接是 merge 合并的默认情况
+- inner 内连接其实也就是键的交集
+- 在这里 df1, df2 相同的键是 name，所以是基于 name 字段做的连接：df3 = pd.merge(df1, df2, how='inner')
+
+`.merge(df1, df2, how='inner')`
+
+```vim
+df3 = pd.merge(df1, df2, how='inner')
+print(df3)
+
+>>>
+       name  data1  data2
+0  ZhangFei      0      0
+1    GuanYu      1      1
+```
+
+**3.use left to merge dataframes**
+
+left 左连接是以第一个 DataFrame 为主进行的连接，第二个 DataFrame 作为补充。
+
+`.merge(df1, df2, how='left')`
+
+```vim
+df3 = pd.merge(df1, df2, how='left')
+print(df3)
+
+>>>
+       name  data1  data2
+0  ZhangFei      0    0.0
+1    GuanYu      1    1.0
+2         a      2    NaN
+3         b      3    NaN
+4         c      4    NaN
+
+```
+
+**4.use left to merge dataframes**
+
+right 右连接是以第二个 DataFrame 为主进行的连接，第一个 DataFrame 作为补充。
+
+```vim
+df3 = pd.merge(df1, df2, how='right')
+print(df3)
+
+>>>
+       name  data1  data2
+0  ZhangFei    0.0      0
+1    GuanYu    1.0      1
+2         A    NaN      2
+3         B    NaN      3
+4         C    NaN      4
+```
+
+**5.use outer to merge dataframes**
+
+outer 外连接相当于求两个 DataFrame 的并集。
+
+```vim
+df3 = pd.merge(df1, df2, how='outer')
+print(df3)
+
+>>>
+       name  data1  data2
+0  ZhangFei    0.0    0.0
+1    GuanYu    1.0    1.0
+2         a    2.0    NaN
+3         b    3.0    NaN
+4         c    4.0    NaN
+5         A    NaN    2.0
+6         B    NaN    3.0
+7         C    NaN    4.0
+```
+
+### Use SQL to open Pandas
+
+在 Python 里可以直接使用 `SQL` 语句来操作 `Pandas`:
+
+`pandasql` 工具中的主要函数是 `sqldf`，它接收两个参数：一个 `SQL` 查询语句，还有一组环境变量 `globals()` 或 `locals()`。
+
+`lambda sql: sqldf(sql, globals())`
+- 输入的参数是 sql，返回的结果是 sqldf 对 sql 的运行结果
+- sqldf 中也输入了 globals 全局参数，因为在 sql 中有对全局参数 df1 的使用。
+
+```vim
+import pandas as pd
+from pandas import DataFrame
+from pandasql import sqldf, load_meat, load_births
+
+df1 = DataFrame({'name':['ZhangFei', 'GuanYu', 'a', 'b', 'c'], 'data1':range(5)})
+pysqldf = lambda sql: sqldf(sql, globals())
+sql = "select * from df1 where name ='ZhangFei'"
+print(pysqldf(sql))
+
+>>>
+       name  data1
+0  ZhangFei      0
+```
 
 
 
