@@ -11,11 +11,12 @@ tags:
   - User Profiling
 ---
 
-### User Profiling
+### User Profiling 
 
 **User Profiling Modeling:**
-- First Step: Unifying users 统一化
-- Second Step: Segmentation 标签化
-- Third Step: Business Operation 业务化
+- **First Step**: Unifying users 统一化
+- **Second Step**: Segmentation 标签化
+- **Third Step**: Business Operation 业务化
+
 
 
