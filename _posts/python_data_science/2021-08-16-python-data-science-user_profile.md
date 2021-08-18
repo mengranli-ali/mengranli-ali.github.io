@@ -18,7 +18,7 @@ tags:
 - **Second Step**: Segmentation 标签化
 - **Third Step**: Business Operation 业务化
 
-**1.Unifying Users**
+#### 1.Unifying Users
 
 用户唯一标识是整个用户画像的核心。
 
@@ -26,7 +26,7 @@ tags:
 
 设计唯一标识可以从这些项中选择：用户名、注册手机号、联系人手机号、邮箱、设备号、CookieID 等。
 
-**2.Users Segmentation**
+#### 2.Users Segmentation
 
 用户消费行为分析从4 个维度来进行标签划分：
 - 用户标签：它包括了性别、年龄、地域、收入、学历、职业等。这些包括了用户的基础属性。
@@ -36,7 +36,7 @@ tags:
 
 用户画像是现实世界中的用户的数学建模，我们正是将海量数据进行标签化，来得到精准的用户画像，从而为企业更精准地解决问题。
 
-**3.Business Value**
+#### 3.Business Value
 
 从用户生命周期的三个阶段来划分业务价值，包括：**获客、粘客和留客。**
 - 获客：如何进行拉新，通过更精准的营销获取客户。
