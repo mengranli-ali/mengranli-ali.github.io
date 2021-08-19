@@ -37,5 +37,33 @@ Data Completeness includes cleaning missing values and NaN.
 - Average 均值：使用当前列的均值；
 - Use highest frequency data 高频：使用当前列出现频率最高的数据。
 
+**Example 1: Fill missing data in `column['Age'] ` with its average age.**
+
+`df['age'].fillna(df['age'].mean(), inplace=True)`
+
+```vim
+import pandas as pd
+from pandas import DataFrame
+import numpy as np
+
+df = DataFrame({'name':['ZhangFei', 'GuanYu', 'a', 'b', 'c'], 'age': [23, 19, np.nan, 25, 44]})
+
+df['age'].fillna(df['age'].mean(), inplace=True)
+
+print(df)
+
+>>>
+       name    age
+0  ZhangFei  23.00
+1    GuanYu  19.00
+2         a  27.75
+3         b  25.00
+4         c  44.00
+```
+
+**Example 2: Fill missing data with highly frequent value**
+
+如果我们用最高频的数据进行填充，可以先通过 `value_counts` 获取 Age 字段最高频次 `age_maxf`，然后再对 Age 字段中缺失的数据用 `age_maxf` 进行填充:
+
 
 
