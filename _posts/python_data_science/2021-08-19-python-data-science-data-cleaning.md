@@ -39,6 +39,10 @@ Data Completeness includes cleaning missing values and NaN.
 
 **Example 1: Fill missing data in `column['Age'] ` with its average age.**
 
+if you want it to modify the df inplace, you have to explicitly specify
+
+`inplace=True`
+
 `df['age'].fillna(df['age'].mean(), inplace=True)`
 
 ```vim
@@ -64,6 +68,41 @@ print(df)
 **Example 2: Fill missing data with highly frequent value**
 
 如果我们用最高频的数据进行填充，可以先通过 `value_counts` 获取 Age 字段最高频次 `age_maxf`，然后再对 Age 字段中缺失的数据用 `age_maxf` 进行填充:
+
+`age_maxf = df['age'].value_counts().index[0]`
+
+`df['age'].fillna(age_maxf, inplace=True)`
+
+```vim
+import numpy as np
+import pandas as pd
+from pandas import DataFrame
+``
+df = DataFrame({'name':['ZhangFei', 'GuanYu', 'a', 'b', 'c'], 'age': [23, 25, np.nan, 25, 44]})
+
+age_maxf = df['age'].value_counts().index[0]
+df['age'].fillna(age_maxf, inplace=True)
+
+print(df)
+
+>>>
+       name   age
+0  ZhangFei  23.0
+1    GuanYu  25.0
+2         a  25.0
+3         b  25.0
+4         c  44.0
+```
+
+**2.Empty rows 空行**
+
+我们发现数据中有一个空行，除了 `index` 之外，全部的值都是 `NaN`。
+
+`Pandas` 的 `read_csv()` 并没有可选参数来忽略空行，这样，我们就需要在数据被读入之后再使用 `dropna()` 进行处理，删除空行。
+
+**Drop the rows where all elements are missing:**
+
+`df.dropna(how='all',inplace=True) `
 
 
 
