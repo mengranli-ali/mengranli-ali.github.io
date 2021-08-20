@@ -13,6 +13,9 @@ tags:
 
 ### Data Cleaning
 
+**Data cleaning** is the process of ensuring that your data is correct, consistent and usable.
+
+
 #### Principles of Data Cleaning
 
 数据清洗规则总结为以下 4 个关键点，统一起来叫“完全合一”:
