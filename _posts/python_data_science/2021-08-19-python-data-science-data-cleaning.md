@@ -29,11 +29,15 @@ tags:
 
 Python 的 Pandas 工具基于 NumPy 的工具，专门为解决数据分析任务而创建。Pandas 纳入了大量库，可以利用这些库高效地进行数据清理工作。
 
-##### Data Completeness
+**Three principles:**
+- Data Completeness
+- Data Comprehension
+
+**1.Data Completeness**
 
 Data Completeness includes cleaning missing values and NaN.
 
-**1.Missing Data 缺失值**
+**Missing Data 缺失值**
 
 在数据中有些年龄、体重数值是缺失的，这往往是因为数据量较大，在过程中，有些数值没有采集到。通常我们可以采用以下三种方法：
 - Delete 删除：删除数据缺失的记录；
@@ -97,7 +101,7 @@ print(df)
 4         c  44.0
 ```
 
-**2.Empty rows 空行**
+**Empty rows 空行**
 
 我们发现数据中有一个空行，除了 `index` 之外，全部的值都是 `NaN`。
 
@@ -107,5 +111,26 @@ print(df)
 
 `df.dropna(how='all',inplace=True) `
 
+**2.Data Comprehension**
 
+Data Comprehension, especially units/formats are not consistent.
 
+观察 weight 列的数值，我们能发现 weight 列的单位不统一。
+
+有的单位是千克（kgs），有的单位是磅（lbs）。
+
+这里使用千克作为统一的度量单位，将磅（lbs）转化为千克（kgs）：
+
+```vim
+# 获取 weight 数据列中单位为 lbs 的数据
+rows_with_lbs = df['weight'].str.contains('lbs').fillna(False)
+print df[rows_with_lbs]
+
+# 将 lbs转换为 kgs, 2.2lbs=1kgs
+for i,lbs_row in df[rows_with_lbs].iterrows():
+
+  # 截取从头开始到倒数第三个字符之前，即去掉lbs。
+  weight = int(float(lbs_row['weight'][:-3])/2.2)
+  df.at[i,'weight'] = '{}kgs'.format(weight) 
+  
+```
