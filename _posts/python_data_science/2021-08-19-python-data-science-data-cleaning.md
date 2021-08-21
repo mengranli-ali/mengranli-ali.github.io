@@ -29,7 +29,7 @@ tags:
 
 Python 的 Pandas 工具基于 NumPy 的工具，专门为解决数据分析任务而创建。Pandas 纳入了大量库，可以利用这些库高效地进行数据清理工作。
 
-**Data Completeness**
+##### Data Completeness
 
 Data Completeness includes cleaning missing values and NaN.
 
