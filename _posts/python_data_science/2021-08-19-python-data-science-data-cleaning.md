@@ -25,7 +25,7 @@ tags:
 - 合法性：数据的类型、内容、大小的合法性。比如数据中存在非 ASCII 字符，性别存在了未知，年龄超过了 150 岁等。
 - 唯一性：数据是否存在重复记录，因为数据通常来自不同渠道的汇总，重复的情况是常见的。行数据、列数据都需要是唯一的，比如一个人不能重复记录多次，且一个人的体重也不能在列指标中重复记录多次。
 
-#### Using Pandas to clean data
+### Using Pandas to clean data
 
 Python 的 Pandas 工具基于 NumPy 的工具，专门为解决数据分析任务而创建。Pandas 纳入了大量库，可以利用这些库高效地进行数据清理工作。
 
@@ -33,7 +33,7 @@ Python 的 Pandas 工具基于 NumPy 的工具，专门为解决数据分析任�
 - Data Completeness
 - Data Comprehension
 
-**1.Data Completeness**
+#### 1.Data Completeness
 
 Data Completeness includes cleaning missing values and NaN.
 
@@ -111,7 +111,7 @@ print(df)
 
 `df.dropna(how='all',inplace=True) `
 
-**2.Data Comprehension**
+#### 2.Data Comprehension
 
 Data Comprehension, especially units/formats are not consistent.
 
@@ -135,7 +135,7 @@ for i,lbs_row in df[rows_with_lbs].iterrows():
   
 ```
 
-**3.Data Rationality**
+#### 3.Data Rationality
 
 我们可以看到在数据集中 `Firstname` 和 `Lastname` 有一些非 `ASCII` 的字符。
 
@@ -147,7 +147,7 @@ df['first_name'].replace({r'[^\x00-\x7F]+':''}, regex=True, inplace=True)
 df['last_name'].replace({r'[^\x00-\x7F]+':''}, regex=True, inplace=True)
 ```
 
-**4.Data Uniqueness**
+#### 4.Data Uniqueness
 
 Uniqueness – points out that there should be no data duplicates reported. Each data record should be unique, otherwise the risk of accessing outdated information increases. 
 
