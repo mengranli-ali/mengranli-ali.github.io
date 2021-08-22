@@ -165,9 +165,29 @@ Uniqueness – points out that there should be no data duplicates reported. Each
 
 ```vim
 # 切分名字，删除源数据列
-df[['first_name','last_name']] = df['name'].str.split(expand=True)
-df.drop('name', axis=1, inplace=True)
+import numpy as np
+import pandas as pd
+from pandas import DataFrame
+
+
+df = DataFrame({'name': ['Zhang Fei', 'Guan Yu', 'david lewis', 'baba pa', 'can xu'],
+                'age': [23, 25, np.nan, 25, 44],
+                'empty': [np.nan, None, None, None, None]})
+
+df[['first_name','last_name']] = df['name'].str.split(' ', 1, expand=True)
+df.drop('name',axis=1, inplace=True)
+print(df)
+
+>>>
+    age  empty first_name last_name
+0  23.0    NaN      Zhang       Fei
+1  25.0    NaN       Guan        Yu
+2   NaN    NaN      david     lewis
+3  25.0    NaN       baba        pa
+4  44.0    NaN        can        xu
 ```
+
+
 
 
 
