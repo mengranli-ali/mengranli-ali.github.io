@@ -134,3 +134,40 @@ for i,lbs_row in df[rows_with_lbs].iterrows():
   df.at[i,'weight'] = '{}kgs'.format(weight) 
   
 ```
+
+**3.Data Rationality**
+
+我们可以看到在数据集中 `Firstname` 和 `Lastname` 有一些非 `ASCII` 的字符。
+
+我们可以采用删除或者替换的方式来解决非 `ASCII` 问题，这里我们使用删除方法：
+
+```vim
+# 删除非 ASCII 字符
+df['first_name'].replace({r'[^\x00-\x7F]+':''}, regex=True, inplace=True)
+df['last_name'].replace({r'[^\x00-\x7F]+':''}, regex=True, inplace=True)
+```
+
+**4.Data Uniqueness**
+
+Uniqueness – points out that there should be no data duplicates reported. Each data record should be unique, otherwise the risk of accessing outdated information increases. 
+
+**Multiple Parameters in one column**
+
+`Name` includes two parameters:
+- `Firstname`
+- `Lastname`
+
+在数据中不难发现，姓名列（`Name`）包含了两个参数 `Firstname` 和 `Lastname`。
+
+为了达到数据整洁目的，我们将 Name 列拆分成 `Firstname` 和 `Lastname` 两个字段。
+
+我们使用 `Python` 的 `split` 方法，`str.split(expand=True)`，将列表拆成新的列，再将原来的 `Name` 列删除。
+
+```vim
+# 切分名字，删除源数据列
+df[['first_name','last_name']] = df['name'].str.split(expand=True)
+df.drop('name', axis=1, inplace=True)
+```
+
+
+
