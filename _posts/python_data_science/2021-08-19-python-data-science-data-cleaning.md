@@ -187,6 +187,70 @@ print(df)
 4  44.0    NaN        can        xu
 ```
 
+**Repetitive Data**
+
+我们校验一下数据中是否存在重复记录。
+
+如果存在重复记录，就使用 `Pandas` 提供的 `drop_duplicates()` 来删除重复数据。
+
+```vim
+# 删除重复数据行
+df.drop_duplicates(['first_name','last_name'],inplace=True)
+```
+
+```vim
+import numpy as np
+import pandas as pd
+from pandas import DataFrame
+
+
+df = DataFrame({'name': ['Zhang Fei', 'Zhang Fei', 'david lewis', 'baba pa', 'can xu'],
+                'age': [25, 25, np.nan, 25, 44],
+                'empty': [np.nan, None, None, None, None]})
+
+df[['first_name','last_name']] = df['name'].str.split(' ', 1, expand=True)
+df.drop('name',axis=1, inplace=True)
+df.drop_duplicates(['first_name', 'last_name'], inplace=True)
+print(df)
+
+>>>
+    age  empty first_name last_name
+0  25.0    NaN      Zhang       Fei
+2   NaN    NaN      david     lewis
+3  25.0    NaN       baba        pa
+4  44.0    NaN        can        xu
+```
+
+Exercise:
+- 完整性：ounces 列数据中存在NAN
+- 全面性：food列数据中存在大小写不一致问题
+- 合法性：ounces列数据存在负值
+- 唯一性：food列数据存在重复 处理：求和合并 因为是食物，可以把同样名字的食物加起来合成一行
+
+```vim
+# -*- coding: utf-8 -*
+import pandas as pd
+import numpy as np
+from pandas import Series, DataFrame
+
+df = pd.read_csv('./fooddata.csv')
+
+# 把ounces 列中的NaN替换为平均值
+df['ounces'].fillna(df['ounces'].mean(), inplace=True)
+
+# 把food列中的大写字母全部转换为小写
+df['food'] = df['food'].str.lower()
+
+# 把ounces 列中的负数转化为正数
+df['ounces']= df['ounces'].apply(lambda x: abs(x))
+
+#删除food列中的重复值
+df.drop_duplicates('food',inplace=True)
+
+print (df)
+
+```
+
 
 
 
