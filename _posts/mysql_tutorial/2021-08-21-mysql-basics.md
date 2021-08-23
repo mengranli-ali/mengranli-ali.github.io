@@ -15,6 +15,8 @@ tags:
 
 SQL is case-insensitive, you can write the SQL statement in lowercase, uppercase, etc.
 
+Example:
+
 ```vim
 select select_list
 from table_name;
