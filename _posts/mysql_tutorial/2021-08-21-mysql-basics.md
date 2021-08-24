@@ -11,6 +11,8 @@ tags:
 
 ### MySQL Basics
 
+More details can be found here:
+
 [MySQL Tutorial](https://www.mysqltutorial.org/mysql-basics/)
 
 SQL is case-insensitive, you can write the SQL statement in lowercase, uppercase, etc.
