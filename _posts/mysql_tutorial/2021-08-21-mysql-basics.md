@@ -24,6 +24,8 @@ select select_list
 from table_name;
 ```
 
+Or:
+
 ```vim
 SELECT select_list
 FROM table_name;
