@@ -62,7 +62,7 @@ FROM employees;
 
 **2.`SELECT` – to use the SELECT statement without referencing a table.**
 
-MySQL doesn’t require the `FROM` clause. It means that you can have a `SELECT` statement without the `FROM` clause 
+MySQL does not require the `FROM` clause. It means that you can have a `SELECT` statement without the `FROM` clause 
 
 ```vim
 SELECT select_list;
