@@ -72,7 +72,7 @@ SELECT CONCAT('John',' ','Doe');
 
 **3.Assign an alias to a column to make it more readable.**
 
-To change a column name of the result set, you can use a column alias:
+To change a column name of the result set, you can use a column **alias**:
 
 ```vim
 SELECT expression AS column_alias;
