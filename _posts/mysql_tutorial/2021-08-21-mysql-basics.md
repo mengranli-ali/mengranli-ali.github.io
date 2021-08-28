@@ -88,7 +88,7 @@ SELECT CONCAT('John',' ','Doe') AS name;
 
 ### Sorting Data
 
-####`ORDER BY`
+#### `ORDER BY`
 
 To **sort the rows** in the result set, you add the `ORDER BY` clause to the `SELECT` statement.
 
@@ -154,7 +154,7 @@ orderNumber	orderlinenumber	quantityOrdered	priceEach	totalPrice
 10407	                 3	           6	91.11	        546.66
 ```
 
-####`FIELD()`
+#### `FIELD()`
 
 **5.Using `ORDER BY` clause to sort data using a custom list**
 
