@@ -31,7 +31,9 @@ SELECT select_list
 FROM table_name;
 ```
 
-#### Querying Data
+### Querying Data
+
+#### `SELECT FROM`
 
 **1.`SELECT FROM` – query the data from a single table.**
 
@@ -84,7 +86,9 @@ SELECT expression column_alias;
 SELECT CONCAT('John',' ','Doe') AS name;
 ```
 
-#### Sorting Data
+### Sorting Data
+
+####`ORDER BY`
 
 To **sort the rows** in the result set, you add the `ORDER BY` clause to the `SELECT` statement.
 
@@ -149,6 +153,8 @@ orderNumber	orderlinenumber	quantityOrdered	priceEach	totalPrice
 10322	                 3	          20	26.55	        531.00
 10407	                 3	           6	91.11	        546.66
 ```
+
+####`FIELD()`
 
 **5.Using `ORDER BY` clause to sort data using a custom list**
 
@@ -241,7 +247,7 @@ firstName | lastName  | reportsTo |
 | Diane     | Murphy    |      NULL 
 ```
 
-#### Filtering Data
+### Filtering Data
 
 **Basic Operators:**
 - `WHERE` – learn how to use the `WHERE` clause to filter rows based on specified conditions.
@@ -255,7 +261,7 @@ firstName | lastName  | reportsTo |
 - `LIMIT` – use `LIMIT` to constrain the number of rows returned by `SELECT` statement
 - `IS NULL` – test whether a value is `NULL` or not by using `IS NULL` operator.
 
-**`WHERE` clause**
+#### `WHERE` clause
 
 The `WHERE` clause allows you to specify a search condition for the rows returned by a query. 
 
@@ -492,4 +498,114 @@ WHERE
 - `>` - Greater than.
 - `<=` - Less than or equal to.
 - `>=` - Greater than or equal to.
+
+#### `SELECT DISTINCT` clause
+
+When querying data from a table, you may get duplicate rows. 
+
+**1.`SELECT DISTINCT`**
+
+To **remove these duplicate rows**, you use the **DISTINCT** clause in the **SELECT** statement.
+
+`SELECT DISTINCT lastname`
+
+```vim
+SELECT 
+    DISTINCT lastname
+FROM
+    employees
+ORDER BY 
+    lastname;
+```
+
+**2.`DISTINCT` and `NULL` values**
+
+When you specify a column that has `NULL` values in the `DISTINCT` clause, the `DISTINCT` clause will keep only one `NULL` value because it considers all `NULL `values are the same.
+
+```vim
+SELECT DISTINCT state
+FROM customers;
+
+>>>
+| state         |
++---------------+
+| NULL          |
+| NV            |
+| Victoria      |
+| CA            |
+| NY            |
+| PA            |
+...
+| Co. Cork      |
+| Pretoria      |
+| NH            |
+| Tokyo         |
++---------------+
+```
+
+**3.`DISTINCT` with multiple columns**
+
+When you specify multiple columns in the `DISTINCT` clause, the `DISTINCT` clause will use the combination of values in these columns to determine the uniqueness of the row in the result set.
+
+```vim
+SELECT DISTINCT
+    state, city
+FROM
+    customers
+WHERE
+    state IS NOT NULL
+ORDER BY 
+    state, 
+    city;
+    
+>>>
+| state         | city           |
++---------------+----------------+
+| BC            | Tsawassen      |
+| BC            | Vancouver      |
+| CA            | Brisbane       |
+| CA            | Burbank        |
+| CA            | Burlingame     |
+| CA            | Glendale       |
+| CA            | Los Angeles    |
+| CA            | Pasadena       |
+| CA            | San Diego      |
+```
+
+Compared to the results without `DISTINCT` clause in the query:
+
+```vim
+SELECT 
+    state, city
+FROM
+    customers
+WHERE
+    state IS NOT NULL
+ORDER BY 
+    state , 
+    city;
+
+>>>
+| state         | city           |
++---------------+----------------+
+| BC            | Tsawassen      |
+| BC            | Vancouver      |
+| CA            | Brisbane       |
+| CA            | Burbank        |
+..
+| CA            | San Francisco  |
+| CA            | San Francisco  |
+...
+| MA            | Boston         |
+| MA            | Boston         |
+| MA            | Brickhaven     |
+| MA            | Brickhaven     |
+| MA            | Brickhaven     |
+...
+| NY            | NYC            |
+| NY            | NYC            |
+| NY            | NYC            |
+| NY            | NYC            |
+| NY            | NYC            |
+```
 
