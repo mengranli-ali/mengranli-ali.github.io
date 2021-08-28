@@ -212,7 +212,7 @@ orderNumber	status
 10101	Shipped
 ```
 
-**5.MySQL `ORDER BY` and `NULL`**
+**6.MySQL `ORDER BY` and `NULL`**
 
 In MySQL, `NULL` comes before `non-NULL `values. 
 
@@ -241,6 +241,19 @@ firstName | lastName  | reportsTo |
 | Diane     | Murphy    |      NULL 
 ```
 
+#### Filtering Data
+
+**Basic Operators:**
+- `WHERE` – learn how to use the `WHERE` clause to filter rows based on specified conditions.
+- `SELECT  DISTINCT` – show you how to use the `DISTINCT` operator in the SELECT statement to eliminate duplicate rows in a result set.
+- `AND` – introduce you to the `AND` operator to combine Boolean expressions to form a complex condition for filtering data.
+- `OR`– introduce you to the `OR` operator and show you how to combine the OR operator with the AND operator to filter data.
+- `IN` – show you how to use the `IN` operator in the WHERE clause to determine if a value matches any value in a set.
+- `NOT IN` – negate the `IN` operator using the `NOT` operator to check if a value doesn’t match any value in a set.
+- `BETWEEN` – show you how to query data based on a range using `BETWEEN` operator.
+- `LIKE`  – provide you with technique to query data based on a pattern.
+- `LIMIT` – use `LIMIT` to constrain the number of rows returned by `SELECT` statement
+- `IS NULL` – test whether a value is `NULL` or not by using `IS NULL` operator.
 
 
 
