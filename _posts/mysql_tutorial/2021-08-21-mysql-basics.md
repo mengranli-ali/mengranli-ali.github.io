@@ -429,6 +429,57 @@ firstName | lastName  | officeCode |
 +-----------+-----------+------------+
 ```
 
+Alternative:This query uses the greater than or equal ( `>=` ) and less than or equal ( `<=` ) operators instead of the `BETWEEN` operator to get the same result:
+
+`WHERE officeCode >= 1 AND officeCode <= 3;`
+
+_**`NOT BETWEEN` clause:**_
+
+Example: To find the products whose buy prices are not between $20 and $100.
+
+```vim
+SELECT 
+    productCode, 
+    productName, 
+    buyPrice
+FROM
+    products
+WHERE
+    buyPrice NOT BETWEEN 20 AND 100;
+
+>>>
+productCode	productName	                         buyPrice
+S24_2840	1958 Chevy Corvette Limited Edition	  15.91
+S24_2972	1982 Lamborghini Diablo	                  16.24
+S18_2238	1998 Chrysler Plymouth Prowler	          101.51
+S10_4962	1962 LanciaA Delta 16V	                  103.42
+
+```
+
+Alternative:
+
+`WHERE buyPrice < 20 OR buyPrice > 100;`
+
+_**Using `BETWEEN` operator with dates**_
+
+Example: returns the orders with the required dates between 01/01/2003 to 01/31/2003:
+- use the `CAST()` to cast the literal string `'2003-01-01'` into a `DATE` value:
+
+```vim
+SELECT 
+    orderNumber, requiredDate, status
+FROM
+    orders
+WHERE
+    requireddate BETWEEN CAST('2003-01-01' AS DATE) AND CAST('2003-01-31' AS DATE);
+    
+>>>
+orderNumber	requiredDate	status
+10100	        2003-01-13	Shipped
+10101	        2003-01-18	Shipped
+10102	        2003-01-18	Shipped
+```
+
 **5.Using `WHERE` clause with the `LIKE` operator**
 
 The `LIKE` operator evaluates to `TRUE` if a value matches a specified pattern.
@@ -459,6 +510,74 @@ ORDER BY firstName;
 | William   | Patterson |
 +-----------+-----------+
 ```
+
+More examples:
+
+```vim
+WHERE
+    firstName LIKE 'a%';
+    
+>>>
+employeeNumber	lastName	firstName
+1143	             Bow	Anthony
+1611	           Fixter	Andy
+```
+
+uses the `LIKE` operator to find all employees whose last names contain the substring 'on':
+
+```vim
+WHERE
+    lastname LIKE '%on%';
+```
+
+To find employees whose first names start with the letter `T` , end with the letter `m`, and contain any single character between e.g., `Tom`, `Tim`:
+
+```vim
+WHERE
+    firstname LIKE 'T_m';
+```
+
+**`NOT LIKE` clause:**
+
+Example: to search for employees whose last names don’t start with the letter `B`:
+
+```vim
+SELECT 
+    employeeNumber, 
+    lastName, 
+    firstName
+FROM
+    employees
+WHERE
+    lastName NOT LIKE 'B%';
+```
+
+**`LIKE` operator with the `ESCAPE` clause**
+
+you can use the `ESCAPE` clause to specify the escape character so that the `LIKE` operator interprets the wildcard character as a literal character
+
+The backslash character (`\`) is the default escape character.
+
+Example 1: to find products whose product codes contain the string `_20 `:
+
+```vim
+WHERE
+    productCode LIKE '%\_20%';
+    
+>>>
+productCode	productName
+S10_2016	1996 Moto Guzzi 1100i
+S24_2000	1960 BSA Gold Star DBD34
+S24_2011	18th century schooner
+```
+
+Alternatively, you can specify a different escape character e.g., `$` using the `ESCAPE` clause:
+
+```vim
+WHERE
+    productCode LIKE '%$_20%' ESCAPE '$';
+```
+
 
 **6.Using `WHERE` clause with the `IN` operator**
 
@@ -542,7 +661,108 @@ WHERE
 | 4          | Paris         | +33 14 723 4404 | France  |
 ```
 
-**7.Using `WHERE` clause with the `IS NULL` operator**
+**`NOT IN` operator**
+
+Use the `NOT IN` to check if a value doesn’t match any value in a list.
+
+Example: uses the `NOT IN` operator to find the offices that do not locate in France and the USA:
+
+```vim
+SELECT 
+    officeCode, 
+    city, 
+    phone
+FROM
+    offices
+WHERE
+    country NOT IN ('USA' , 'France')
+ORDER BY 
+    city;
+
+>>>
+| officeCode | city   | phone            |
++------------+--------+------------------+
+| 7          | London | +44 20 7877 2041 |
+| 6          | Sydney | +61 2 9264 2451  |
+| 5          | Tokyo  | +81 33 224 5000  |
+```
+
+**7.Using`LIMIT` clause to constrain the number of rows returned by a query.**
+
+The `LIMIT` clause is used in the `SELECT` statement to **constrain the number of rows to return**. 
+
+The `LIMIT` clause accepts one or two arguments. 
+
+The values of both arguments must be zero or positive integers.
+- The `offset` specifies the offset of the first row to return. The offset of the first row is 0, not 1.
+- The `row_count` specifies the maximum number of rows to return.
+
+```vim
+SELECT 
+    select_list
+FROM
+    table_name
+LIMIT [offset,] row_count;
+```
+
+Example 1: uses the `LIMIT` clause to get the **top five** customers who have the highest credit:
+- the `ORDER BY` clause sorts the customers by credits in high to low.
+- the `LIMIT` clause returns the first 5 rows.
+
+```vim
+SELECT 
+    customerNumber, 
+    customerName, 
+    creditLimit
+FROM
+    customers
+ORDER BY creditLimit DESC
+LIMIT 5;
+```
+
+To calculate the number of pages:
+
+```vim
+SELECT 
+    COUNT(*) 
+FROM 
+    customers;
+    
+>>>
++----------+
+| COUNT(*) |
++----------+
+|      122 |
++----------+
+```
+
+Then figure out how many pages you need if each page can only contain 10 rows:
+
+To get rows of page 1 which contains the first 10 customers sorted by the customer name:
+
+```vim
+SELECT 
+    customerNumber, 
+    customerName
+FROM
+    customers
+ORDER BY customerName    
+LIMIT 10;
+```
+
+To get the rows of the second page that include rows 11 – 20:
+
+```vim
+SELECT 
+    customerNumber, 
+    customerName
+FROM
+    customers
+ORDER BY customerName    
+LIMIT 10, 10;
+```
+
+**8.Using `WHERE` clause with the `IS NULL` operator**
 
 To check if a value is `NULL `or not, you use the `IS NULL` operator, not the equal operator (`=`). 
 
@@ -572,7 +792,24 @@ WHERE
 +----------+-----------+-----------+
 ```
 
-**8.Using `WHERE` clause with comparison operators**
+**`IS NOT NULL` clause:**
+
+```vim
+SELECT 
+    customerName, 
+    country, 
+    salesrepemployeenumber
+FROM
+    customers
+WHERE
+    salesrepemployeenumber IS NOT NULL
+ORDER BY 
+   customerName;
+>>>
+
+```
+
+**9.Using `WHERE` clause with comparison operators**
 
 **Comparison Operators:**
 - `=` - Equal to.You can use it with almost any data type.
