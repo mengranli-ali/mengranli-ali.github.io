@@ -88,7 +88,7 @@ SELECT CONCAT('John',' ','Doe') AS name;
 
 To **sort the rows** in the result set, you add the `ORDER BY` clause to the `SELECT` statement.
 
-When executing the `SELECT` statement with an `ORDER BY` clause, MySQL always evaluates the `ORDER BY` clause after the `FROM` and `SELECT` clauses:
+1.When executing the `SELECT` statement with an `ORDER BY` clause, MySQL always evaluates the `ORDER BY` clause after the `FROM` and `SELECT` clauses:
 
 ```vim
 SELECT 
@@ -115,7 +115,7 @@ Use `DESC` to sort the result set in descending order:
 ORDER BY column1 DESC;
 ```
 
-Sort the result set by **multiple columns**:
+**2.Sort the result set by **multiple columns**:**
 
 ```vim
 ORDER BY
@@ -123,7 +123,7 @@ ORDER BY
    column2;
 ```
 
-Sort the result set by a column **in ascending order** and then by another column **in descending order**:
+**3.Sort the result set by a column **in ascending order** and then by another column **in descending order**:**
 
 ```vim
 ORDER BY
@@ -131,7 +131,115 @@ ORDER BY
     column2 DESC;
 ```
 
+**4.Using `ORDER BY` clause to sort a result set by an expression:**
 
+```vim
+SELECT orderNumber,
+       orderlinenumber,
+	   quantityOrdered,
+	   priceEach,
+	   quantityOrdered * priceEach as totalPrice
+FROM orderdetails
+ORDER BY totalPrice;
+
+>>>
+orderNumber	orderlinenumber	quantityOrdered	priceEach	totalPrice
+10419	                 7	          15	32.10	        481.50
+10420	                 3	          15	35.29	        529.35
+10322	                 3	          20	26.55	        531.00
+10407	                 3	           6	91.11	        546.66
+```
+
+**5.Using `ORDER BY` clause to sort data using a custom list**
+
+The `FIELD()` function returns the **position of the str** in the str1, str2, … list. 
+
+If the str is not in the list, the `FIELD()` function returns 0. 
+
+For example, the following query returns 1 because the position of the string ‘A’ is the first position on the list 'A', 'B', and 'C':
+
+```vim
+FIELD(str, str1, str2, ...)
+
+SELECT FIELD('A', 'A', 'B','C');
+```
+
+Example:
+
+Suppose that you want to sort the sales orders based on their statuses in the following order:
+- In Process
+- On Hold
+- Canceled
+- Resolved
+- Disputed
+- Shipped
+
+you can use the `FIELD()` function to **map each order status** to a number and sort the result by the result of the `FIELD()` function:
+
+```vim
+SELECT 
+    orderNumber, status
+FROM
+    orders
+ORDER BY FIELD(status,
+        'In Process',
+        'On Hold',
+        'Cancelled',
+        'Resolved',
+        'Disputed',
+        'Shipped');
+        
+>>>
+orderNumber	status
+10420	In Process
+10425	In Process
+10334	On Hold
+10401	On Hold
+10167	Cancelled
+10179	Cancelled
+10248	Cancelled
+10253	Cancelled
+10260	Cancelled
+10262	Cancelled
+10164	Resolved
+10327	Resolved
+10367	Resolved
+10386	Resolved
+10406	Disputed
+10415	Disputed
+10417	Disputed
+10100	Shipped
+10101	Shipped
+```
+
+**5.MySQL `ORDER BY` and `NULL`**
+
+In MySQL, `NULL` comes before `non-NULL `values. 
+
+Therefore, when you the `ORDER BY` clause with the `ASC` option, `NULLs` appear first in the result set.
+
+If you use the `ORDER BY` with the `DESC` option, `NULLs` will appear last in the result set
+
+```vim
+SELECT 
+    firstName, lastName, reportsTo
+FROM
+    employees
+ORDER BY reportsTo DESC;
+
+>>>
+firstName | lastName  | reportsTo |
++-----------+-----------+-----------+
+| Yoshimi   | Kato      |      1621 |
+| Leslie    | Jennings  |      1143 |
+| Leslie    | Thompson  |      1143 |
+| Julie     | Firrelli  |      1143 |
+| ....
+| Mami      | Nishi     |      1056 |
+| Mary      | Patterson |      1002 |
+| Jeff      | Firrelli  |      1002 |
+| Diane     | Murphy    |      NULL 
+```
 
 
 
