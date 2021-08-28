@@ -84,6 +84,54 @@ SELECT expression column_alias;
 SELECT CONCAT('John',' ','Doe') AS name;
 ```
 
+#### Sorting Data
+
+To **sort the rows** in the result set, you add the `ORDER BY` clause to the `SELECT` statement.
+
+When executing the `SELECT` statement with an `ORDER BY` clause, MySQL always evaluates the `ORDER BY` clause after the `FROM` and `SELECT` clauses:
+
+```vim
+SELECT 
+   select_list
+FROM 
+   table_name
+ORDER BY 
+   column1 [ASC|DESC], 
+   column2 [ASC|DESC],
+   ...;
+```
+
+By default, the `ORDER BY` clause uses `ASC` if you don’t explicitly specify any option. 
+
+Use `ASC` to sort the result set in ascending order:
+
+```vim
+ORDER BY column1 ASC;
+```
+
+Use `DESC` to sort the result set in descending order:
+
+```vim
+ORDER BY column1 DESC;
+```
+
+Sort the result set by **multiple columns**:
+
+```vim
+ORDER BY
+   column1,
+   column2;
+```
+
+Sort the result set by a column **in ascending order** and then by another column **in descending order**:
+
+```vim
+ORDER BY
+    column1 ASC,
+    column2 DESC;
+```
+
+
 
 
 
