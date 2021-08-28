@@ -264,6 +264,8 @@ The `search_condition` is a combination of one or more expressions using the log
 - `WHERE jobtitle = 'Sales Rep' AND officeCode = 1;`
 - `WHERE jobtitle = 'Sales Rep' OR officeCode = 1;`
 - `WHERE officeCode BETWEEN 1 AND 3`
+- `WHERE lastName LIKE '%son'`
+- `WHERE officeCode IN (1 , 2, 3)`
 
 ```vim
 SELECT 
@@ -416,5 +418,78 @@ ORDER BY firstName;
 +-----------+-----------+
 ```
 
+**6.Using `WHERE` clause with the `IN` operator**
 
+The `IN` operator returns `TRUE` if a value matches any value in a list.
+
+`value IN (value1, value2,...)`
+
+```vim
+SELECT 
+    firstName, 
+    lastName, 
+    officeCode
+FROM
+    employees
+WHERE
+    officeCode IN (1 , 2, 3)
+ORDER BY 
+    officeCode;
+    
+>>>
++-----------+-----------+------------+
+| firstName | lastName  | officeCode |
++-----------+-----------+------------+
+| Diane     | Murphy    | 1          |
+| Mary      | Patterson | 1          |
+| Jeff      | Firrelli  | 1          |
+| Anthony   | Bow       | 1          |
+| Leslie    | Jennings  | 1          |
+| Leslie    | Thompson  | 1          |
+| Julie     | Firrelli  | 2          |
+| Steve     | Patterson | 2          |
+| Foon Yue  | Tseng     | 3          |
+| George    | Vanauf    | 3          |
++-----------+-----------+------------+
+```
+
+**7.Using `WHERE` clause with the `IS NULL` operator**
+
+To check if a value is `NULL `or not, you use the `IS NULL` operator, not the equal operator (`=`). 
+
+The `IS NULL` operator returns `TRUE` if a value is `NULL`.
+
+`NULL` is a marker that indicates that **a value is missing or unknown**.
+
+`NULL` is not equivalent to the number `0` or an empty string.
+
+`value IS NULL`
+
+```vim
+SELECT 
+    lastName, 
+    firstName, 
+    reportsTo
+FROM
+    employees
+WHERE
+    reportsTo IS NULL;
+    
+>>>
+----------+-----------+-----------+
+| lastName | firstName | reportsTo |
++----------+-----------+-----------+
+| Murphy   | Diane     |      NULL |
++----------+-----------+-----------+
+```
+
+**8.Using `WHERE` clause with comparison operators**
+
+**Comparison Operators:**
+- `=` - Equal to.You can use it with almost any data type.
+- `<>` or `!=` - Not equal to.
+- `<` - Less than. You typically use it with numeric and date/time data types.
+- `>` - Greater than.
+- `<=` - Less than or equal to.
+- `>=` - Greater than or equal to.
 
