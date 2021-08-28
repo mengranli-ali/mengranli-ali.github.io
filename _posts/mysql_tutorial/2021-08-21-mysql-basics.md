@@ -255,6 +255,166 @@ firstName | lastName  | reportsTo |
 - `LIMIT` – use `LIMIT` to constrain the number of rows returned by `SELECT` statement
 - `IS NULL` – test whether a value is `NULL` or not by using `IS NULL` operator.
 
+**`WHERE` clause**
+
+The `WHERE` clause allows you to specify a search condition for the rows returned by a query. 
+
+The `search_condition` is a combination of one or more expressions using the logical operator `AND`, `OR` and `NOT`.
+- `WHERE jobtitle = 'Sales Rep';`
+- `WHERE jobtitle = 'Sales Rep' AND officeCode = 1;`
+- `WHERE jobtitle = 'Sales Rep' OR officeCode = 1;`
+- `WHERE officeCode BETWEEN 1 AND 3`
+
+```vim
+SELECT 
+    select_list
+FROM
+    table_name
+WHERE
+    search_condition;
+```
+
+**1.Using `WHERE` clause with equality operator**
+
+```vim
+SELECT 
+    lastname, 
+    firstname, 
+    jobtitle
+FROM
+    employees
+WHERE
+    jobtitle = 'Sales Rep';
+    
+>>>
+lastname  | firstname | jobtitle  |
++-----------+-----------+-----------+
+| Jennings  | Leslie    | Sales Rep |
+| Thompson  | Leslie    | Sales Rep |
+| Firrelli  | Julie     | Sales Rep |
+| Patterson | Steve     | Sales Rep |
+| Tseng     | Foon Yue  | Sales Rep |
+```
+
+**2.Using `WHERE` clause with the `AND` operator**
+
+```vim
+SELECT 
+    lastname, 
+    firstname, 
+    jobtitle,
+    officeCode
+FROM
+    employees
+WHERE
+    jobtitle = 'Sales Rep' AND 
+    officeCode = 1;
+    
+>>>
+lastname | firstname | jobtitle  | officeCode |
++----------+-----------+-----------+------------+
+| Jennings | Leslie    | Sales Rep | 1          |
+| Thompson | Leslie    | Sales Rep | 1          
+```
+
+**3.Using `WHERE` clause with `OR` operator**
+
+The `OR` operator evaluates to `TRUE` only if one of the expressions evaluates to `TRUE`:
+
+The query returns any employee who has the job title Sales Rep or office code 1.
+
+```vim
+SELECT 
+    lastName, 
+    firstName, 
+    jobTitle, 
+    officeCode
+FROM
+    employees
+WHERE
+    jobtitle = 'Sales Rep' OR 
+    officeCode = 1
+ORDER BY 
+    officeCode, 
+    jobTitle;
+    
+>>>
+lastName  | firstName | jobTitle           | officeCode |
++-----------+-----------+--------------------+------------+
+| Murphy    | Diane     | President          | 1          |
+| Bow       | Anthony   | Sales Manager (NA) | 1          |
+| Jennings  | Leslie    | Sales Rep          | 1          |
+| Thompson  | Leslie    | Sales Rep          | 1          |
+| Firrelli  | Jeff      | VP Marketing       | 1          |
+| Patterson | Mary      | VP Sales           | 1          |
+| Firrelli  | Julie     | Sales Rep          | 2          |
+| Patterson | Steve     | Sales Rep          | 2          |
+| Tseng     | Foon Yue  | Sales Rep          | 3          |  
+```
+
+**4.Using `WHERE` clause with the `BETWEEN` operator** 
+
+The `BETWEEN` operator returns `TRUE` if a value is in a range of values:
+
+`expression BETWEEN low AND high`
+
+```vim
+SELECT 
+    firstName, 
+    lastName, 
+    officeCode
+FROM
+    employees
+WHERE
+    officeCode BETWEEN 1 AND 3
+ORDER BY officeCode;
+
+>>>
+firstName | lastName  | officeCode |
++-----------+-----------+------------+
+| Diane     | Murphy    | 1          |
+| Mary      | Patterson | 1          |
+| Jeff      | Firrelli  | 1          |
+| Anthony   | Bow       | 1          |
+| Leslie    | Jennings  | 1          |
+| Leslie    | Thompson  | 1          |
+| Julie     | Firrelli  | 2          |
+| Steve     | Patterson | 2          |
+| Foon Yue  | Tseng     | 3          |
+| George    | Vanauf    | 3          |
++-----------+-----------+------------+
+```
+
+**5.Using `WHERE` clause with the `LIKE` operator**
+
+The `LIKE` operator evaluates to `TRUE` if a value matches a specified pattern.
+
+To form a pattern, you use the `%` and `_` wildcards(replacements/placeholders):
+- The `%` wildcard matches any string of zero or more characters
+- The `_` wildcard matches any single character
+
+The following query finds the employees whose last names end with the string 'son':
+
+```vim
+SELECT 
+    firstName, 
+    lastName
+FROM
+    employees
+WHERE
+    lastName LIKE '%son'
+ORDER BY firstName;
+
+>>>
++-----------+-----------+
+| firstName | lastName  |
++-----------+-----------+
+| Leslie    | Thompson  |
+| Mary      | Patterson |
+| Steve     | Patterson |
+| William   | Patterson |
++-----------+-----------+
+```
 
 
 
