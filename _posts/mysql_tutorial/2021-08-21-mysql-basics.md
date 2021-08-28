@@ -306,6 +306,10 @@ lastname  | firstname | jobtitle  |
 
 **2.Using `WHERE` clause with the `AND` operator**
 
+Use the `AND` operator to combine two Boolean expressions. The `AND` operator returns true when both expressions are true; otherwise, it returns false.
+
+Use the `AND` operator to form conditions in the `WHERE` clause of the `SELECT` statement.
+
 ```vim
 SELECT 
     lastname, 
@@ -359,6 +363,38 @@ lastName  | firstName | jobTitle           | officeCode |
 | Patterson | Steve     | Sales Rep          | 2          |
 | Tseng     | Foon Yue  | Sales Rep          | 3          |  
 ```
+
+**Use both `AND` and `OR` Operators:**
+
+The `OR` operator combines two Boolean expressions and returns true when either expression is true. Otherwise, it returns false.
+
+MySQL evaluates the OR operator after the `AND` operator if an expression contains both `AND` and `OR` operators.
+
+Use parentheses to change the order of evaluation.
+
+Example: uses the `OR` operator to select the customers who locate in the USA or France and have a credit limit greater than 100,000.
+
+```vim
+SELECT   
+	customername, 
+	country, 
+	creditLimit
+FROM   
+	customers
+WHERE(country = 'USA'
+		OR country = 'France')
+	  AND creditlimit > 100000;
+	  
+>>>
+| customername                 | country | creditLimit |
++------------------------------+---------+-------------+
+| La Rochelle Gifts            | France  |   118200.00 |
+| Mini Gifts Distributors Ltd. | USA     |   210500.00 |
+| Land of Toys Inc.            | USA     |   114900.00 |
+| Saveley & Henriot, Co.       | France  |   123900.00 |
+| Muscle Machine Inc           | USA     |   138500.00 |
+```
+
 
 **4.Using `WHERE` clause with the `BETWEEN` operator** 
 
@@ -428,6 +464,10 @@ ORDER BY firstName;
 
 The `IN` operator returns `TRUE` if a value matches any value in a list.
 
+Use the `IN` operator to check if a value is in a set of values.
+
+Use the `IN` operator to form a condition for the `WHERE` clause.
+
 `value IN (value1, value2,...)`
 
 ```vim
@@ -457,6 +497,49 @@ ORDER BY
 | Foon Yue  | Tseng     | 3          |
 | George    | Vanauf    | 3          |
 +-----------+-----------+------------+
+```
+
+Example 2: uses the `IN` operator to find the offices located in the USA and France:
+
+```vim
+SELECT 
+    officeCode, 
+    city, 
+    phone, 
+    country
+FROM
+    offices
+WHERE
+    country IN ('USA' , 'France');
+
+>>>
+| officeCode | city          | phone           | country |
++------------+---------------+-----------------+---------+
+| 1          | San Francisco | +1 650 219 4782 | USA     |
+| 2          | Boston        | +1 215 837 0825 | USA     |
+| 3          | NYC           | +1 212 555 3000 | USA     |
+| 4          | Paris         | +33 14 723 4404 | France  |
+```
+
+The same result but alternative way:
+
+```vim
+SELECT 
+    officeCode, 
+    city, 
+    phone
+FROM
+    offices
+WHERE
+    country = 'USA' OR country = 'France';
+    
+>>>
+| officeCode | city          | phone           | country |
++------------+---------------+-----------------+---------+
+| 1          | San Francisco | +1 650 219 4782 | USA     |
+| 2          | Boston        | +1 215 837 0825 | USA     |
+| 3          | NYC           | +1 212 555 3000 | USA     |
+| 4          | Paris         | +33 14 723 4404 | France  |
 ```
 
 **7.Using `WHERE` clause with the `IS NULL` operator**
