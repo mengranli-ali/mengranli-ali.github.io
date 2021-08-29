@@ -9,7 +9,7 @@ tags:
   - MySQL
 ---
 
-### Joining Tables
+## Joining Tables
 
 **Basic statements of Joining Tables:**
 - `Table & Column Aliases` – introduce you to table and column aliases.
