@@ -294,7 +294,99 @@ WHERE c.committee_id IS NULL;
 
 ### MySQL RIGHT JOIN clause
 
-The `right join` clause is similar to the left join clause except that the treatment of left and right tables is reversed. The right join starts selecting data from the right table instead of the left table.
+The `right join` clause is similar to the left join clause except that the treatment of left and right tables is reversed. 
+
+The `right join` starts selecting data from the right table instead of the left table.
 
 The `right join` clause selects all rows from the right table and matches rows in the left table. If a row from the right table does not have matching rows from the left table, the column of the left table will have `NULL` in the final result set.
+
+**Basic syntax:**
+
+```vim
+SELECT column_list 
+FROM table_1 
+RIGHT JOIN table_2 ON join_condition;
+```
+
+```vim
+SELECT column_list 
+FROM table_1 
+RIGHT JOIN table_2 USING (column_name);
+```
+
+**To find rows in the right table that does not have corresponding rows in the left table:**
+
+```vim
+SELECT column_list 
+FROM table_1 
+RIGHT JOIN table_2 USING (column_name)
+WHERE column_table_1 IS NULL;
+```
+
+**Example:**
+
+1.uses the right join to join the `members` and `committees` tables:
+
+```vim
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+RIGHT JOIN committees c on c.name = m.name;
+
+>>>
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         1 | John   |            1 | John      |
+|         3 | Mary   |            2 | Mary      |
+|         5 | Amelia |            3 | Amelia    |
+|      NULL | NULL   |            4 | Joe       |
++-----------+--------+--------------+-----------+
+```
+
+2.uses the right join clause with the `USING` syntax:
+
+```vim
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+RIGHT JOIN committees c USING(name);
+```
+
+3.find the committee members who are not in the members table:
+- use the right join to select data that exists only in the right table:
+
+```vim
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+RIGHT JOIN committees c USING(name)
+WHERE m.member_id IS NULL;
+
+>>>
++-----------+--------+--------------+-----------+
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|      NULL | NULL   |            4 | Joe       |
+```
+
+### MySQL CROSS JOIN clause
+
+The `cross join` clause does not have a join condition.
+
+The `cross join` makes a Cartesian product of rows from the joined tables. The cross join combines each row from the first table with every row from the right table to make the result set.
+
+Suppose the first table has `n` rows and the second table has `m` rows. The cross join that joins the tables will return nxm rows.
 
