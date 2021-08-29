@@ -172,6 +172,8 @@ SELECT * FROM committees;
 
 ### INNER JOIN clause
 
+The `INNER JOIN` matches each row in one table with every row in other tables and allows you to query rows that contain columns from both tables.
+
 Basic syntax of the `inner join` clause that **joins two tables** `table_1` and `table_2`:
 
 ```vim
@@ -182,7 +184,7 @@ INNER JOIN table_2 ON join_condition;
 
 Uses an `inner join` clause to find members who are also the committee members:
 - use the values in the name columns in both tables `members` and `committees` to match.
-
+- `name` is the `foreign key` column in these two tables. You join tables that have foreign key relationships. 
 ```vim
 SELECT 
     m.member_id, 
@@ -203,6 +205,29 @@ INNER JOIN committees c ON c.name = m.name;
 +-----------+--------+--------------+-----------+
 ```
 
+Another example:
+- to get the `productCode` and `productName` from the `products` table.
+- to get the `textDescription` of product lines from the `productlines` table.
+- the column `productLine` in the table `products` is called the `foreign key` column.
+
+```vim
+SELECT 
+    productCode, 
+    productName, 
+    textDescription
+FROM
+    products t1
+INNER JOIN productlines t2 
+    ON t1.productline = t2.productline;
+
+>>>
+productCode	productName	                textDescription
+S10_1949	1952 Alpine Renault 1300	Attention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.
+S10_4757	1972 Alfa Romeo GTA	A       Attention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.
+S10_4962	1962 LanciaA Delta 16V	    Attention car enthusiasts: Make your wildest car ownership dreams come true. Whether you are looking for classic muscle cars, dream sports cars or movie-inspired miniatures, you will find great choices in this category. These replicas feature superb attention to detail and craftsmanship and offer features such as working steering system, opening forward compartment, opening rear trunk with removable spare wheel, 4-wheel independent spring suspension, and so on. The models range in size from 1:10 to 1:24 scale and include numerous limited edition and several out-of-production vehicles. All models include a certificate of authenticity from their manufacturers and come fully assembled and ready for display in the home or office.
+S12_1099	1968 Ford Mustang	        Attention car ent
+```
+
 If the join condition uses the equality operator (`=`) and **the column names in both tables used for matching are the same**, and you can use the `USING` clause instead:
 
 ```vim
@@ -221,6 +246,82 @@ FROM
     members m
 INNER JOIN committees c USING(name);
 ```
+
+Another example:
+
+```vim
+SELECT 
+    productCode, 
+    productName, 
+    textDescription
+FROM
+    products
+INNER JOIN productlines USING (productline);
+```
+
+#### INNER JOIN – join multiple tables
+
+This query uses two `INNER JOIN` clauses to join three tables: `orders`, `orderdetails`, and `products`:
+
+```vim
+SELECT 
+    orderNumber,
+    orderDate,
+    orderLineNumber,
+    productName,
+    quantityOrdered,
+    priceEach
+FROM
+    orders
+INNER JOIN
+    orderdetails USING (orderNumber)
+INNER JOIN
+    products USING (productCode)
+ORDER BY 
+    orderNumber, 
+    orderLineNumber;
+
+>>>
+RESULT
+orderNumber	orderDate	orderLineNumber	productName	                        quantityOrdered	priceEach
+10100	        2003-01-06	1	        1936 Mercedes Benz 500k Roadster	49	        35.29
+10100	        2003-01-06	2	        1911 Ford Town Car	                50	        55.09
+10100	        2003-01-06	3	        1917 Grand Touring Sedan	        30	        136.00
+10100	        2003-01-06	4	        1932 Alfa Romeo 8C2300 Spider Sport	22	        75.46
+10101	        2003-01-09	1	        1928 Mercedes-Benz SSK	                26	        167.06
+
+```
+
+#### INNER JOIN using other operators
+
+In addition to the equal operator (`=`), you can use other operators to form the join condition:
+- greater than ( `>` )
+- less than ( `<` )
+- not-equal ( `<>` ) operator 
+
+Example: uses a less-than ( `<` ) join to find the sales price of the product whose code is `S10_1678` that is less than the manufacturer’s suggested retail price (`MSRP`) for that product.
+
+```vim
+SELECT 
+    orderNumber, 
+    productName, 
+    msrp, 
+    priceEach
+FROM
+    products p
+INNER JOIN orderdetails o 
+   ON p.productcode = o.productcode
+      AND p.msrp > o.priceEach
+WHERE
+    p.productcode = 'S10_1678';
+
+>>>
+orderNumber	productName	                        msrp	priceEach
+10107	        1969 Davidson Ultimate Chopper	95.70	81.35
+10121	        1969 Davidson Ultimate Chopper	95.70	86.13
+10134	        1969 Davidson Ultimate Chopper	95.70	90.92
+```
+
 
 ### LEFT JOIN clause
 
