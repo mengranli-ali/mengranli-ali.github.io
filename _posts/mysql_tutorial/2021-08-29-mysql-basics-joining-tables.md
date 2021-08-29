@@ -388,5 +388,59 @@ The `cross join` clause does not have a join condition.
 
 The `cross join` makes a Cartesian product of rows from the joined tables. The cross join combines each row from the first table with every row from the right table to make the result set.
 
-Suppose the first table has `n` rows and the second table has `m` rows. The cross join that joins the tables will return nxm rows.
+i.e. the first table has `n` rows and the second table has `m` rows. The cross join that joins the tables will return `nxm` rows.
+
+**The cross join is useful for generating planning data.** 
+- _For example, you can carry the sales planning by using the cross join of customers, products, and years._
+
+**Basic Syntax:**
+
+```vim
+SELECT select_list
+FROM table_1
+CROSS JOIN table_2;
+```
+
+**Example:**
+
+Uses the `cross join` clause to join the `members` with the `committees` tables:
+
+```vim
+SELECT 
+    m.member_id, 
+    m.name AS member, 
+    c.committee_id, 
+    c.name AS committee
+FROM
+    members m
+CROSS JOIN committees c;
+
+>>>
+| member_id | member | committee_id | committee |
++-----------+--------+--------------+-----------+
+|         1 | John   |            4 | Joe       |
+|         1 | John   |            3 | Amelia    |
+|         1 | John   |            2 | Mary      |
+|         1 | John   |            1 | John      |
+|         2 | Jane   |            4 | Joe       |
+|         2 | Jane   |            3 | Amelia    |
+|         2 | Jane   |            2 | Mary      |
+|         2 | Jane   |            1 | John      |
+|         3 | Mary   |            4 | Joe       |
+|         3 | Mary   |            3 | Amelia    |
+|         3 | Mary   |            2 | Mary      |
+|         3 | Mary   |            1 | John      |
+|         4 | David  |            4 | Joe       |
+|         4 | David  |            3 | Amelia    |
+|         4 | David  |            2 | Mary      |
+|         4 | David  |            1 | John      |
+|         5 | Amelia |            4 | Joe       |
+|         5 | Amelia |            3 | Amelia    |
+|         5 | Amelia |            2 | Mary      |
+|         5 | Amelia |            1 | John      |
++-----------+--------+--------------+-----------+
+```
+
+
+
 
