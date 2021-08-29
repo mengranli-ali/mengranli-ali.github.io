@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Data Analysis: MySQL Basics"
+title: "Data Analysis: MySQL Basics - Querying, Sorting & Filtering Data"
 subtitle: 'To Lean basic MySQL statements'
 author: "Mengran"
 header-style: text
