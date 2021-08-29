@@ -20,7 +20,7 @@ tags:
 - `CROSS JOIN` – make a Cartesian product of rows from multiple tables.
 - `Self-join` – join a table to itself using table alias and connect rows within the same table using inner join and left join.
 
-### MySQL alias for columns
+### alias for columns
 
 To give a column a descriptive name, you can use a column alias.
 
@@ -103,7 +103,7 @@ ORDER BY e.firstName;
 
 ```
 
-### MySQL join clauses
+### join clauses
 
 A `join` is a method of **linking data** between one (self-join) or more tables based on values of the common column between the tables.
 
@@ -170,7 +170,7 @@ SELECT * FROM committees;
 +--------------+--------+
 ```
 
-### MySQL INNER JOIN clause
+### INNER JOIN clause
 
 Basic syntax of the `inner join` clause that **joins two tables** `table_1` and `table_2`:
 
@@ -222,7 +222,7 @@ FROM
 INNER JOIN committees c USING(name);
 ```
 
-### MySQL LEFT JOIN clause
+### LEFT JOIN clause
 
 The **left join** selects data starting from the left table. For each row in the left table, the left join compares with every row in the right table.
 
@@ -292,7 +292,7 @@ WHERE c.committee_id IS NULL;
 +-----------+--------+--------------+-----------+
 ```
 
-### MySQL RIGHT JOIN clause
+### RIGHT JOIN clause
 
 The `right join` clause is similar to the left join clause except that the treatment of left and right tables is reversed. 
 
@@ -382,7 +382,7 @@ WHERE m.member_id IS NULL;
 |      NULL | NULL   |            4 | Joe       |
 ```
 
-### MySQL CROSS JOIN clause
+### CROSS JOIN clause
 
 The `cross join` clause does not have a join condition.
 
