@@ -329,7 +329,12 @@ The **left join** selects data starting from the left table. For each row in the
 
 The left join **selects all data from the left table** whether there are matching rows exist in the right table or not.
 
-Basic syntax:
+In other words, `LEFT JOIN` returns all rows from the left table regardless of whether a row from the left table has a matching row from the right table or not.
+
+If there is no match, the columns of the row from the right table will contain `NULL`.
+
+
+**Basic syntax:**
 
 ```vim
 SELECT column_list 
@@ -367,6 +372,7 @@ LEFT JOIN committees c USING(name);
 +-----------+--------+--------------+-----------+
 ```
 
+**`LEFT JOIN` clause to find unmatched rows**
 
 Add a `WHERE` clause and `IS NULL` operator:
 - To find members who are not the committee members
@@ -391,6 +397,66 @@ WHERE c.committee_id IS NULL;
 |         2 | Jane   |         NULL | NULL      |
 |         4 | David  |         NULL | NULL      |
 +-----------+--------+--------------+-----------+
+```
+
+Another example:
+
+```vim
+SELECT 
+    c.customerNumber, 
+    c.customerName, 
+    o.orderNumber, 
+    o.status
+FROM
+    customers c
+LEFT JOIN orders o 
+    ON c.customerNumber = o.customerNumber
+WHERE
+    orderNumber IS NULL;
+```
+
+**`LEFT JOIN` to join three tables**
+
+uses two `LEFT JOIN` clauses to join the three tables: `employees`, `customers`, and `payments`.
+
+```vim
+SELECT 
+    lastName, 
+    firstName, 
+    customerName, 
+    checkNumber, 
+    amount
+FROM
+    employees
+LEFT JOIN customers ON 
+    employeeNumber = salesRepEmployeeNumber
+LEFT JOIN payments ON 
+    payments.customerNumber = customers.customerNumber
+ORDER BY 
+    customerName, 
+    checkNumber;
+```
+
+**Condition in `WHERE` clause vs. `ON` clause**
+
+```vim
+SELECT 
+    o.orderNumber, 
+    customerNumber, 
+    productCode
+FROM
+    orders o
+LEFT JOIN orderdetails 
+    USING (orderNumber)
+WHERE
+    orderNumber = 10123;
+
+>>>
+orderNumber	customerNumber	productCode
+10123	        103	        S18_1589
+10123	        103	        S18_2870
+10123	        103	        S18_3685
+
 ```
 
 ### RIGHT JOIN clause
