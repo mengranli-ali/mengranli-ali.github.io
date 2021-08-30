@@ -769,3 +769,35 @@ South          iPhone          20970
 South          Macbook Pro     0
 ```
 
+### self join clause
+
+There is a special case that you need to join a table to itself, which is known as a self join.
+
+The `self join` is often used to query hierarchical data or to compare a row with other rows within the same table.
+
+To perform a `self join`, you must use table aliases to not repeat the same table name twice in a single query. Note that referencing a table twice or more in a query without using table aliases will cause an error.
+
+**Example:**
+
+You can display a list of customers who locate in the same city by joining the customers table to itself.
+
+```vim
+SELECT 
+    c1.city, 
+    c1.customerName, 
+    c2.customerName
+FROM
+    customers c1
+INNER JOIN customers c2 ON 
+    c1.city = c2.city
+    AND c1.customername > c2.customerName
+ORDER BY 
+    c1.city;
+    
+>>>
+city	        customerName	            customerName
+Auckland  	Kelly's Gift Shop	    GiftsForHim.com
+Auckland  	Kelly's Gift Shop	    Down Under Souveniers, Inc
+Auckland	GiftsForHim.com	Down Under  Souveniers, Inc
+```
+
