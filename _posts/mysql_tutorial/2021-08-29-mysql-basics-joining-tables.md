@@ -769,7 +769,7 @@ South          iPhone          20970
 South          Macbook Pro     0
 ```
 
-### self join clause
+### Self join clause
 
 There is a special case that you need to join a table to itself, which is known as a self join.
 
@@ -800,4 +800,5 @@ Auckland  	Kelly's Gift Shop	    GiftsForHim.com
 Auckland  	Kelly's Gift Shop	    Down Under Souveniers, Inc
 Auckland	GiftsForHim.com	Down Under  Souveniers, Inc
 ```
+
 
