@@ -481,6 +481,18 @@ FROM table_1
 RIGHT JOIN table_2 USING (column_name);
 ```
 
+```vim
+SELECT 
+    employeeNumber, 
+    customerNumber
+FROM
+    customers
+RIGHT JOIN employees 
+    ON salesRepEmployeeNumber = employeeNumber
+ORDER BY 
+	employeeNumber;
+```
+
 **To find rows in the right table that does not have corresponding rows in the left table:**
 
 ```vim
@@ -490,9 +502,11 @@ RIGHT JOIN table_2 USING (column_name)
 WHERE column_table_1 IS NULL;
 ```
 
+
+
 **Example:**
 
-1.uses the right join to join the `members` and `committees` tables:
+**1.uses the right join to join the `members` and `committees` tables:**
 
 ```vim
 SELECT 
@@ -515,7 +529,7 @@ RIGHT JOIN committees c on c.name = m.name;
 +-----------+--------+--------------+-----------+
 ```
 
-2.uses the right join clause with the `USING` syntax:
+**2.uses the right join clause with the `USING` syntax:**
 
 ```vim
 SELECT 
@@ -528,7 +542,8 @@ FROM
 RIGHT JOIN committees c USING(name);
 ```
 
-3.find the committee members who are not in the members table:
+**3.`RIGHT JOIN` to find unmatching rows**
+- find the committee members who are not in the members table:
 - use the right join to select data that exists only in the right table:
 
 ```vim
@@ -568,7 +583,18 @@ FROM table_1
 CROSS JOIN table_2;
 ```
 
-**Example:**
+```vim
+SELECT * FROM t1
+CROSS JOIN t2;
+```
+
+```vim
+SELECT * FROM t1
+CROSS JOIN t2
+WHERE t1.id = t2.id;
+```
+
+**Example 1:**
 
 Uses the `cross join` clause to join the `members` with the `committees` tables:
 
@@ -608,6 +634,138 @@ CROSS JOIN committees c;
 +-----------+--------+--------------+-----------+
 ```
 
+**Example 2:**
 
+**1.First, create a new database `salesdb`:**
 
+```vim
+CREATE DATABASE IF NOT EXISTS salesdb;
+```
+
+**2.Second, switch the current data to the new database `salesdb`:**
+
+```vim
+USE salesdb;
+```
+
+**3.Third, create new tables in the `salesdb` database:**
+
+```vim
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(100),
+    price DECIMAL(13,2 )
+);
+
+CREATE TABLE stores (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    store_name VARCHAR(100)
+);
+
+CREATE TABLE sales (
+    product_id INT,
+    store_id INT,
+    quantity DECIMAL(13 , 2 ) NOT NULL,
+    sales_date DATE NOT NULL,
+    PRIMARY KEY (product_id , store_id),
+    FOREIGN KEY (product_id)
+        REFERENCES products (id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (store_id)
+        REFERENCES stores (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+```
+
+**4.Finally, insert data into the three tables.** 
+
+Suppose that we have three products iPhone, iPad and Macbook Pro which are sold in two stores North and South.
+
+```vim
+INSERT INTO products(product_name, price)
+VALUES('iPhone', 699),
+      ('iPad',599),
+      ('Macbook Pro',1299);
+
+INSERT INTO stores(store_name)
+VALUES('North'),
+      ('South');
+
+INSERT INTO sales(store_id,product_id,quantity,sales_date)
+VALUES(1,1,20,'2017-01-02'),
+      (1,2,15,'2017-01-05'),
+      (1,3,25,'2017-01-05'),
+      (2,1,30,'2017-01-02'),
+      (2,2,35,'2017-01-05');
+```
+
+**5.Returns total sales for each store and product.**
+
+Calculate the sales and group them by store and product as follows:
+
+```vim
+SELECT 
+    store_name,
+    product_name,
+    SUM(quantity * price) AS revenue
+FROM
+    sales
+        INNER JOIN
+    products ON products.id = sales.product_id
+        INNER JOIN
+    stores ON stores.id = sales.store_id
+GROUP BY store_name , product_name; 
+
+>>>
+store_name    product_name    revenue
+North         iPad            8985
+South         iPhone          203334
+```
+
+**6.To know which store had no sales of a specific product**
+
+Firstly, use the `CROSS JOIN` clause to get the combination of all stores and products:
+
+```vim
+SELECT 
+    store_name, product_name
+FROM
+    stores AS a
+        CROSS JOIN
+    products AS b;
+```
+
+Second, join the result of the query above with a query that returns the total of sales by store and product.
+
+```vim
+SELECT 
+    b.store_name,
+    a.product_name,
+    IFNULL(c.revenue, 0) AS revenue
+FROM
+    products AS a
+        CROSS JOIN
+    stores AS b
+        LEFT JOIN
+    (SELECT 
+        stores.id AS store_id,
+        products.id AS product_id,
+        store_name,
+            product_name,
+            ROUND(SUM(quantity * price), 0) AS revenue
+    FROM
+        sales
+    INNER JOIN products ON products.id = sales.product_id
+    INNER JOIN stores ON stores.id = sales.store_id
+    GROUP BY stores.id, products.id, store_name , product_name) AS c ON c.store_id = b.id
+        AND c.product_id= a.id
+ORDER BY b.store_name;
+
+>>>
+store_name     product_name    revenue
+North          Macbook Pro     32476
+North          iPad            8985
+South          iPhone          20970
+South          Macbook Pro     0
+```
 
