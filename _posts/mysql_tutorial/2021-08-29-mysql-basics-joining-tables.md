@@ -769,13 +769,15 @@ South          iPhone          20970
 South          Macbook Pro     0
 ```
 
-### Self join clause
+### elf join clause
 
 There is a special case that you need to join a table to itself, which is known as a self join.
 
 The `self join` is often used to query hierarchical data or to compare a row with other rows within the same table.
 
-To perform a `self join`, you must use table aliases to not repeat the same table name twice in a single query. Note that referencing a table twice or more in a query without using table aliases will cause an error.
+To perform a `self join`, you must use table aliases to not repeat the same table name twice in a single query. 
+
+Note that referencing a table twice or more in a query without using table aliases will cause an error.
 
 **Example:**
 
