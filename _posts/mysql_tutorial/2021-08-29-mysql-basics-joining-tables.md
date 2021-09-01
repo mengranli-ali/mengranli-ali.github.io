@@ -769,7 +769,7 @@ South          iPhone          20970
 South          Macbook Pro     0
 ```
 
-### elf join clause
+### self join clause
 
 There is a special case that you need to join a table to itself, which is known as a self join.
 
