@@ -11,4 +11,8 @@ tags:
 
 ## Grouping Data
 
+**Basic Clauses:**
+- `GROUP BY` – show you how to group rows into groups based on columns or expressions.
+- `HAVING` – filter the groups by a specific condition.
+- `ROLLUP` –  generate multiple grouping sets considering a hierarchy between columns specified in the GROUP BY clause.
 
