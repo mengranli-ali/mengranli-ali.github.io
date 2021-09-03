@@ -46,5 +46,29 @@ FROM
 GROUP BY status;
 ```
 
+#### GROUP BY with aggregate functions
+
+The aggregate functions allow you to perform the calculation of a set of rows and return a single value. 
+
+The `GROUP BY` clause is often used with an aggregate function to perform calculations and return a single value for each subgroup.
+
+Example: to know the number of orders in each status
+
+```vim
+SELECT 
+    status, COUNT(*)
+FROM
+    orders
+GROUP BY status;
+
+>>>
+status	        COUNT(*)
+Cancelled	6
+Disputed	3
+In Process	6
+On Hold	        4
+Resolved	4
+```
+
 
 
