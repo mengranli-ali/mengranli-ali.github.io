@@ -34,5 +34,17 @@ WHERE
 GROUP BY c1 , c2,...,cn;
 ```
 
+**`GROUP BY` example:**
+
+To group values of the order’s status into subgroups.
+
+```vim
+SELECT 
+    status
+FROM
+    orders
+GROUP BY status;
+```
+
 
 
