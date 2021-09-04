@@ -115,6 +115,8 @@ In Process	6
 #### GROUP BY with expression example
 
 You can also group rows by expressions.
+- used the `YEAR` function to extract year data from order date ( `orderDate`)
+- the expression which appears in the `SELECT` clause must be the same as the one in the `GROUP BY` clause
 
 ```vim
 SELECT 
@@ -132,6 +134,34 @@ GROUP BY
 >>>
 year	total
 2003	3223095.80
+2004	4300602.99
+2005	1341395.85
+```
+
+#### GROUP BY with HAVING clause example
+
+To **filter the groups** returned by `GROUP BY` clause, you use a `HAVING` clause
+
+Example:
+- uses the `HAVING` clause to select the total sales of the years **after 2003**
+
+```vim
+SELECT 
+    YEAR(orderDate) AS year,
+    SUM(quantityOrdered * priceEach) AS total
+FROM
+    orders
+INNER JOIN orderdetails 
+    USING (orderNumber)
+WHERE
+    status = 'Shipped'
+GROUP BY 
+    year
+HAVING 
+    year > 2003;
+
+>>>
+year	total
 2004	4300602.99
 2005	1341395.85
 ```
