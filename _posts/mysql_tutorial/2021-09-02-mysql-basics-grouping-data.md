@@ -114,6 +114,28 @@ In Process	6
 
 #### GROUP BY with expression example
 
+You can also group rows by expressions.
+
+```vim
+SELECT 
+    YEAR(orderDate) AS year,
+    SUM(quantityOrdered * priceEach) AS total
+FROM
+    orders
+INNER JOIN orderdetails 
+    USING (orderNumber)
+WHERE
+    status = 'Shipped'
+GROUP BY 
+    YEAR(orderDate);
+
+>>>
+year	total
+2003	3223095.80
+2004	4300602.99
+2005	1341395.85
+```
+
 
 
 
