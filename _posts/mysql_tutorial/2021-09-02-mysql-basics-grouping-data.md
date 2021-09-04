@@ -166,8 +166,98 @@ year	total
 2005	1341395.85
 ```
 
+#### GROUP BY clause vs. DISTINCT clause
+
+If you use the `GROUP BY` clause in the `SELECT` statement without using aggregate functions, the `GROUP BY` clause behaves like the `DISTINCT` clause.
+
+The difference between `DISTINCT` clause and `GROUP BY` clause is that the `GROUP BY` clause sorts the result set, whereas the `DISTINCT` clause does not.
+
+The following statement uses the `GROUP BY` clause to select the unique states of customers from the customers table.
+
+```vim
+SELECT 
+    state
+FROM
+    customers
+GROUP BY state;
+
+>>>
+state
+null
+BC
+CA
+Co. Cork
+CT
+Isle o
+```
+
+Alternative:
+- You can achieve a similar result by using the `DISTINCT`clause:
+
+```vim
+SELECT DISTINCT
+    state
+FROM
+    customers;
+
+>>>
+state
+null
+NV
+Victoria
+CA
+NY
+PA
+```
+
+**Using `DISTINCT` clause & `GROUP BY` clause:**
+
+If you add the `ORDER BY` clause to the statement that uses the  `DISTINCT` clause, the result set is sorted, and it is the same as the one returned by the statement that uses `GROUP BY` clause.
+
+```vim
+SELECT DISTINCT
+    state
+FROM
+    customers
+ORDER BY 
+    state;
+
+>>>
+state
+null
+BC
+CA
+Co. Cork
+```
+
+### HAVING clause
+
+The `HAVING` clause is used in the `SELECT` statement to specify filter conditions for a group of rows or aggregates.
+
+The `HAVING` clause is often used with the `GROUP BY` clause to filter groups based on a specified condition. 
+
+If you omit the `GROUP BY` clause, the `HAVING` clause behaves like the `WHERE` clause.
+
+`HAVING group_condition;`
+
+**Difference between `HAVING` clause vs `WHERE` clause:**
+- the `HAVING` clause applies a filter condition to **each group of rows**
+- the `WHERE` clause applies the filter condition to **each individual row**
 
 
+```vim
+SELECT 
+    select_list
+FROM 
+    table_name
+WHERE 
+    search_condition
+GROUP BY 
+    group_by_expression
+HAVING 
+    group_condition;
+
+```
 
 
 
