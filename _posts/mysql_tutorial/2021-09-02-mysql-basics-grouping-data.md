@@ -259,5 +259,80 @@ HAVING
 
 ```
 
+#### `HAVING` clause example - greater than
+
+Find which order has total sales **greater than** 1000 by using the `HAVING` clause:
+
+```vim
+SELECT 
+    ordernumber,
+    SUM(quantityOrdered) AS itemsCount,
+    SUM(priceeach*quantityOrdered) AS total
+FROM
+    orderdetails
+GROUP BY 
+   ordernumber
+HAVING 
+   total > 1000;
+
+>>>
+ordernumber	itemsCount	total
+10100	             151	10223.83
+10101	             142	10549.01
+10102	             80	        5494.78
+```
+
+#### `HAVING` clause with logical operators `OR` & `AND`.
+
+Uses the `HAVING` clause to find orders that have **total amounts greater than** 1000 and **contain more than** 600 items:
+
+`HAVING total > 1000 AND itemsCount > 600;`
+
+```vim
+SELECT 
+    ordernumber,
+    SUM(quantityOrdered) AS itemsCount,
+    SUM(priceeach*quantityOrdered) AS total
+FROM
+    orderdetails
+GROUP BY ordernumber
+HAVING 
+    total > 1000 AND 
+    itemsCount > 600;
+    
+>>>
+ordernumber	itemsCount	total
+10106	              675	52151.81
+10126	              617	57131.92
+10135	              607	55601.84
+```
+
+To find all orders that already shipped and have a total amount greater than 1500:
+- you can join the `orderdetails `table with the orders table using the `INNER JOIN` clause and apply a condition on `status` column and `total` aggregate
+
+```vim
+SELECT 
+    a.ordernumber, 
+    status, 
+    SUM(priceeach*quantityOrdered) total
+FROM
+    orderdetails a
+INNER JOIN orders b 
+    ON b.ordernumber = a.ordernumber
+GROUP BY  
+    ordernumber, 
+    status
+HAVING 
+    status = 'Shipped' AND 
+    total > 1500;
+
+>>>
+ordernumber	status	    total
+10100	        Shipped	    10223.83
+10101	        Shipped	    10549.01
+10102	        Shipped	    5494.78
+```
+
+
 
 
