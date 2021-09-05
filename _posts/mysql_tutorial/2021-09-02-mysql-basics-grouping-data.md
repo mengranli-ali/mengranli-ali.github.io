@@ -333,6 +333,222 @@ ordernumber	status	    total
 10102	        Shipped	    5494.78
 ```
 
+### ROLLUP clause
+
+You can use the `ROLLUP` clause to **generate subtotals and grand totals**.
+
+First, setup a sample table:
+- creates a new table named `sales` that stores the order values summarized by product lines and years.
+- ehe data comes from the `products`, `orders`, and `orderDetails` tables in the sample database.
+
+```vim
+CREATE TABLE sales
+SELECT
+    productLine,
+    YEAR(orderDate) orderYear,
+    SUM(quantityOrdered * priceEach) orderValue
+FROM
+    orderDetails
+        INNER JOIN
+    orders USING (orderNumber)
+        INNER JOIN
+    products USING (productCode)
+GROUP BY
+    productLine ,
+    YEAR(orderDate);
+
+>>>
+
+```
+
+```vim
+SELECT * FROM sales;
+
+>>>
+productLine   orderYear  orderValue
+Classic Cars  2010       4080.00
+Trains        2011       2770.00
+Motorcycles   2011       1323.00
+Vintage Cars  2012       5022.00
+```
+
+Secondly, **a grouping set** is a set of columns to which you want to group. 
+
+For example, the following query creates a grouping set denoted by (`productline`):
+
+```vim
+SELECT 
+    productline, 
+    SUM(orderValue) totalOrderValue
+FROM
+    sales
+GROUP BY 
+    productline;
+
+>>>
+productLine   totalOrderValue
+Classic Cars  15434.00
+Trains        13232.00
+Motorcycles   10445.00
+Vintage Cars  9922.00
+```
+
+Then creates an empty grouping set denoted by the `()`:
+```vim
+SELECT 
+    SUM(orderValue) totalOrderValue
+FROM
+    sales;
+
+>>>
+totalOrderValue
+89022.69
+```
+
+To generate **two or more grouping sets** together in one query, you may use the `UNION ALL` operator:
+- The `NULL` in the productLine column identifies the **grand total super-aggregate line**.
+
+```vim
+SELECT 
+    productline, 
+    SUM(orderValue) totalOrderValue
+FROM
+    sales
+GROUP BY 
+    productline 
+UNION ALL
+SELECT 
+    NULL, 
+    SUM(orderValue) totalOrderValue
+FROM
+    sales;
+
+>>>
+productLine   totalOrderValue
+Classic Cars  15434.00
+Trains        13232.00
+Motorcycles   10445.00
+Vintage Cars  9922.00
+...
+null          89022.69
+```
+
+**Solution: use `ROLLUP` clause**
+
+The `ROLLUP` clause is an extension of the `GROUP BY` clause with the following syntax:
+
+```vim
+SELECT 
+    select_list
+FROM 
+    table_name
+GROUP BY
+    c1, c2, c3 WITH ROLLUP;
+```
+
+The `ROLLUP` generates **multiple grouping sets** based on the columns or expressions specified in the GROUP BY clause:
+
+It generates not only the subtotals but also the grand total of the order values.
+
+```vim
+SELECT 
+    productLine, 
+    SUM(orderValue) totalOrderValue
+FROM
+    sales
+GROUP BY 
+    productline WITH ROLLUP;
+    
+>>>
+productLine   totalOrderValue
+Classic Cars  15434.00
+Trains        13232.00
+Motorcycles   10445.00
+Vintage Cars  9922.00
+...
+null          89022.69
+```
+
+**`ROLLUP` clause with hierarchy**
+
+Basic syntax:
+
+`GROUP BY c1, c2, c3 WITH ROLLUP`
+
+Then the hierarchy is as below:
+
+`c1 > c2 > c3`
+
+Then the subtotal will be based off `c1`
+
+Example:
+- In this case,` productLine > orderYear`
+- If you reverse it to `GROUP BY orderYear, productline WITH ROLLUP;` it will be `orderYear > productLine`, which means calculating the subtotal of total order value for each year group
+
+```vim
+SELECT 
+    productLine, 
+    orderYear,
+    SUM(orderValue) totalOrderValue
+FROM
+    sales
+GROUP BY 
+    productline, 
+    orderYear 
+WITH ROLLUP;
+
+>>>
+productLine   orderYear   totalOrderValue
+Classic Cars  2012        10000.00
+Classic Cars  2013        11000.00
+Classic Cars  2014        12000.00
+Classic Cars  null        33000.00
+Trains        2012        15000.00
+Trains        2014        15000.00
+Trains        2015        15000.00
+Trains        null        45000.00
+...
+null          null        78000.00
+```
+
+#### GROUPING() function
+
+Use the `GROUPING()` function to check whether `NULL` in the result set represents the subtotals or grand totals.
+
+The `GROUPING()` function returns 1 when `NULL` occurs in a supper-aggregate row, otherwise, it returns 0.
+
+```vim
+SELECT 
+    IF(GROUPING(orderYear),
+        'All Years',
+        orderYear) orderYear,
+    IF(GROUPING(productLine),
+        'All Product Lines',
+        productLine) productLine,
+    SUM(orderValue) totalOrderValue
+FROM
+    sales
+GROUP BY 
+    orderYear , 
+    productline 
+WITH ROLLUP;
+
+>>>
+orderYear    productLine         totalOrderValue
+2010         Classic Cars        10000.00
+2010         Motorcycles         5000.00
+2010         Trains              8000.00
+2010         All Product Lines   23000.00
+2011         Classic Cars        20000.00
+2011         Motorcycles         8000.00
+2011         Trains              9000.00
+2011         All Product Lines   37000.00
+All Years    All Product Lines   60000.00         
+```
+
+
+
+
 
 
 
