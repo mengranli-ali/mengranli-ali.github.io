@@ -139,6 +139,108 @@ MAX(items)	MIN(items)	FLOOR(AVG(items))
 
 #### correlated subquery
 
+**subquery is independent.** It means that you can execute the subquery as a standalone query.
+
+```vim
+SELECT 
+    orderNumber, 
+    COUNT(orderNumber) AS items
+FROM
+    orderdetails
+GROUP BY orderNumber;
+
+```
+
+A **correlated subquery** is a subquery that uses the data from the outer query. 
+
+In other words, a correlated subquery depends on the outer query. A correlated subquery is evaluated once for each row in the outer query.
+
+Example: uses a **correlated subquery** to select products whose buy prices are greater than the average buy price of all products in each product line.
+
+```vim
+SELECT 
+    productname, 
+    buyprice
+FROM
+    products p1
+WHERE
+    buyprice > (SELECT 
+            AVG(buyprice)
+        FROM
+            products
+        WHERE
+            productline = p1.productline)
+>>>
+productname	                buyprice
+1952 Alpine Renault 1300	98.58
+1996 Moto Guzzi 1100i	    68.99
+```
+
+Both outer query and correlated subquery reference the same products table. Therefore, we need to use a table alias p1 for the products table in the outer query.
+
+Unlike a regular subquery, you cannot execute a correlated subquery independently like this. If you do so, MySQL doesn’t know the p1 table and will issue an error.
+- For each row in the products (or p1) table, the correlated subquery needs to execute once to get the average buy price of all products in the productline of that row.
+- If the buy price of the current row is greater than the average buy price returned by the correlated subquery, the query includes the row in the result set.
+
+```vim
+SELECT 
+    AVG(buyprice)
+FROM
+    products
+WHERE
+    productline = p1.productline;
+    
+```
+
+#### subquery with EXISTS and NOT EXISTS
+
+When a subquery is used with the `EXISTS` or `NOT EXISTS` operator, a subquery returns a `Boolean` value of `TRUE` or `FALSE`. 
+
+The following query illustrates a subquery used with the EXISTS operator:
+
+```vim
+SELECT 
+    *
+FROM
+    table_name
+WHERE
+    EXISTS( subquery );
+```
+
+In the query above, if the subquery returns any rows, `EXISTS` subquery returns `TRUE`, otherwise, it returns `FALSE`.
+
+The `EXISTS` and `NOT EXISTS` are often used in the correlated subqueries.
+
+Example: finds sales orders whose total values are greater than 60K
+
+```vim
+SELECT 
+    orderNumber, 
+    SUM(priceEach * quantityOrdered) total
+FROM
+    orderdetails
+        INNER JOIN
+    orders USING (orderNumber)
+GROUP BY orderNumber
+HAVING SUM(priceEach * quantityOrdered) > 60000;
+
+>>>
+orderNumber	  total
+10165	          67392.85
+10287	          61402.00
+10310	          61234.67
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
