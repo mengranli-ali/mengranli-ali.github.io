@@ -90,4 +90,55 @@ customerNumber	checkNumber	amount
 
 #### subquery with IN and NOT IN operators
 
+If a subquery returns more than one value, you can use other operators such as `IN` or `NOT IN` operator in the `WHERE` clause.
+
+Example: use a subquery with `NOT IN` operator to find the customers who have not placed any orders
+
+```vim
+SELECT 
+    customerName
+FROM
+    customers
+WHERE
+    customerNumber NOT IN (SELECT DISTINCT
+            customerNumber
+        FROM
+            orders);
+>>>
+customerName
+Havel & Zbyszek Co
+American Souvenirs Inc
+Porto Imports Co.
+```
+
+#### subquery in the FROM clause
+
+When you use a subquery in the `FROM` clause, the result set returned from a subquery is used as a temporary table. 
+
+This table is referred to as a derived table or materialized subquery.
+
+Example: finds the maximum, minimum, and average number of items in sale orders
+- `FLOOR()` is used to **remove decimal places** from the average values of items
+
+```vim
+SELECT 
+    MAX(items), 
+    MIN(items), 
+    FLOOR(AVG(items))
+FROM
+    (SELECT 
+        orderNumber, COUNT(orderNumber) AS items
+    FROM
+        orderdetails
+    GROUP BY orderNumber) AS lineitems;
+    
+>>>
+MAX(items)	MIN(items)	FLOOR(AVG(items))
+18	        1	        9
+```
+
+#### correlated subquery
+
+
+
 
