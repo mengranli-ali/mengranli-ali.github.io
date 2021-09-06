@@ -196,7 +196,7 @@ WHERE
 
 When a subquery is used with the `EXISTS` or `NOT EXISTS` operator, a subquery returns a `Boolean` value of `TRUE` or `FALSE`. 
 
-The following query illustrates a subquery used with the EXISTS operator:
+The following query illustrates a subquery used with the `EXISTS` operator:
 
 ```vim
 SELECT 
