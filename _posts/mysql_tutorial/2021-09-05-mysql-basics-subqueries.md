@@ -49,7 +49,7 @@ WHERE
 
 You can use **comparison operators** e.g., `=`, `>`, `<` to compare a single value returned by the subquery with the expression in the `WHERE` clause.
 
-Example 1: returns the customer who has the highest payment.
+**Example 1: returns the customer who has the highest payment.**
 ```vim
 SELECT 
     customerNumber, 
@@ -65,7 +65,7 @@ customerNumber	checkNumber	amount
 141	        JE105477	120166.58
 ```
 
-Example 2: find customers whose payments are greater than the average payment using a subquery
+**Example 2:** find customers whose payments are greater than the average payment using a subquery
 - First, get the average payment by using a subquery.
 - Then, select the payments that are greater than the average payment returned by the subquery in the outer query.
 
