@@ -111,7 +111,7 @@ American Souvenirs Inc
 Porto Imports Co.
 ```
 
-#### subquery in the FROM clause
+#### subquery in the `FROM` clause
 
 When you use a subquery in the `FROM` clause, the result set returned from a subquery is used as a temporary table. 
 
