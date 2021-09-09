@@ -157,7 +157,7 @@ A **correlated subquery** is a subquery that uses the data from the outer query.
 
 In other words, a correlated subquery depends on the outer query. A correlated subquery is evaluated once for each row in the outer query.
 
-Example: uses a **correlated subquery** to select products whose buy prices are greater than the average buy price of all products in each product line.
+**Example:** uses a **correlated subquery** to select products whose buy prices are greater than the average buy price of all products in each product line.
 
 ```vim
 SELECT 
