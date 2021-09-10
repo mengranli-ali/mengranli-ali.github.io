@@ -141,7 +141,7 @@ MAX(items)	MIN(items)	FLOOR(AVG(items))
 
 **subquery is independent.** 
 
-It means that you can execute the subquery as a standalone query.
+It means that you can execute the subquery **as a standalone query**.
 
 ```vim
 SELECT 
