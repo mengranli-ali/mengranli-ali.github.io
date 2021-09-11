@@ -235,8 +235,238 @@ orderNumber	  total
 
 ### Derived Tables
 
+A **derived table** is a **virtual table** returned from a `SELECT` statement. 
 
+A derived table is similar to a temporary table, but using a derived table in the `SELECT` statement is much simpler than a temporary table because **it does not require creating the temporary table**.
 
+The term derived table and subquery is often used interchangeably. 
+
+When a stand-alone subquery is used in the `FROM` clause of a `SELECT` statement, it is also called a derived table.
+
+Unlike a subquery, a derived table **must have an alias** so that you can reference its name later in the query. 
+
+Basic Syntax:
+
+```vim
+SELECT 
+    select_list
+FROM
+    (SELECT 
+        select_list
+    FROM
+        table_1) derived_table_name
+WHERE 
+    derived_table_name.c1 > 0;
+```
+
+Example: gets the top five products by sales revenue in 2003 from the `orders` and `orderdetails` tables, then use the result of this query as a derived table and join it with the `products` table
+- First, the subquery is executed to create a result set or derived table.
+- Then, the outer query is executed that joined the top5product2003 derived table with the products table using the productCode column.
+
+```vim
+SELECT 
+    productName, sales
+FROM
+    (SELECT 
+        productCode, 
+        ROUND(SUM(quantityOrdered * priceEach)) sales
+    FROM
+        orderdetails
+    INNER JOIN orders USING (orderNumber)
+    WHERE
+        YEAR(shippedDate) = 2003
+    GROUP BY productCode
+    ORDER BY sales DESC
+    LIMIT 5) top5products2003
+INNER JOIN
+    products USING (productCode);
+
+>>>
+productName      sales
+2001HelloKitty   123220
+2010Hellowendy   232102
+```
+
+#### derived table example
+
+Scenario: classify the customers who bought products in 2003 into 3 groups: platinum, gold, and silver. Also, you need to know the number of customers in each group with the following conditions:
+- Platinum customers who have orders with the volume greater than 100K.
+- Gold customers who have orders with the volume between 10K and 100K.
+- Silver customers who have orders with the volume less than 10K.
+
+First, need to put each customer into the respective group using `CASE` expression and `GROUP BY` clause:
+
+```vim
+SELECT 
+    customerNumber,
+    ROUND(SUM(quantityOrdered * priceEach)) sales,
+    (CASE
+        WHEN SUM(quantityOrdered * priceEach) < 10000 THEN 'Silver'
+        WHEN SUM(quantityOrdered * priceEach) BETWEEN 10000 AND 100000 THEN 'Gold'
+        WHEN SUM(quantityOrdered * priceEach) > 100000 THEN 'Platinum'
+    END) customerGroup
+FROM
+    orderdetails
+        INNER JOIN
+    orders USING (orderNumber)
+WHERE
+    YEAR(shippedDate) = 2003
+GROUP BY customerNumber;
+
+>>>
+customerNumber   sales   customerGroup
+103              12323   Gold
+112              23212   Gold
+113              30403   Platinum
+124              50232   Silver
+...
+```
+
+Then, use this query as the derived table and perform grouping:
+
+```vim
+SELECT 
+    customerGroup, 
+    COUNT(cg.customerGroup) AS groupCount
+FROM
+    (SELECT 
+        customerNumber,
+            ROUND(SUM(quantityOrdered * priceEach)) sales,
+            (CASE
+                WHEN SUM(quantityOrdered * priceEach) < 10000 THEN 'Silver'
+                WHEN SUM(quantityOrdered * priceEach) BETWEEN 10000 AND 100000 THEN 'Gold'
+                WHEN SUM(quantityOrdered * priceEach) > 100000 THEN 'Platinum'
+            END) customerGroup
+    FROM
+        orderdetails
+    INNER JOIN orders USING (orderNumber)
+    WHERE
+        YEAR(shippedDate) = 2003
+    GROUP BY customerNumber) cg
+GROUP BY cg.customerGroup;    
+
+>>>
+customerGroup   groupCount
+Gold            61
+Silver          8
+Platinum        4
+```
+
+### EXISTS
+
+The `EXISTS` operator is a **Boolean** operator that returns either true or false. 
+
+The `EXISTS `operator is often used to test for the existence of rows returned by the subquery.
+
+The `EXISTS` operator terminates further processing immediately once it finds a matching row, which can help improve the performance of the query.
+
+Basic Syntax:
+
+```vim
+SELECT 
+    select_list
+FROM
+    a_table
+WHERE
+    [NOT] EXISTS(subquery);
+```
+
+Example 1: uses the `EXISTS` operator to find the customer who has at least one order
+- If the `customerNumber`, which appears in the `customers` table, exists in the `orders` table, the subquery returns the first matching row. 
+- As a result, the `EXISTS` operator returns true and stops examining the `orders` table. 
+
+```vim
+SELECT 
+    customerNumber, 
+    customerName
+FROM
+    customers
+WHERE
+    EXISTS(
+	SELECT 
+            1
+        FROM
+            orders
+        WHERE
+            orders.customernumber 
+		= customers.customernumber);
+
+>>>
+customerNumber	customerName
+103	        Atelier graphique
+112	        Signal Gift Stores
+114	        Australian Collectors, Co
+```
+
+Example 2: uses the `NOT EXISTS` operator to find customers who do not have any orders
+
+```vim
+SELECT 
+    customerNumber, 
+    customerName
+FROM
+    customers
+WHERE
+    NOT EXISTS( 
+	SELECT 
+            1
+        FROM
+            orders
+        WHERE
+            orders.customernumber = customers.customernumber
+	);
+```
+
+#### UPDATE EXISTS
+
+Scenario: have to update the phone’s extensions of the employees who work at the office in San Francisco.
+
+First, finds employees who work at the office in `San Franciso`:
+
+```vim
+SELECT 
+    employeenumber, 
+    firstname, 
+    lastname, 
+    extension
+FROM
+    employees
+WHERE
+    EXISTS( 
+        SELECT 
+            1
+        FROM
+            offices
+        WHERE
+            city = 'San Francisco' AND 
+           offices.officeCode = employees.officeCode);
+
+>>>
+employeenumber	firstname	lastname	extension
+1002	        Diane	         Murphy	        x5800
+1056	        Mary	         Patterson	x4611
+1076	        Jeff	         Firrelli	x9273
+```
+
+Then, adds the number 1 to the phone extension of employees who work at the office in San Francisco:
+
+```vim
+UPDATE employees 
+SET 
+    extension = CONCAT(extension, '1')
+WHERE
+    EXISTS( 
+        SELECT 
+            1
+        FROM
+            offices
+        WHERE
+            city = 'San Francisco'
+                AND offices.officeCode = employees.officeCode);
+                
+```
+
+#### INSERT EXISTS
 
 
 
