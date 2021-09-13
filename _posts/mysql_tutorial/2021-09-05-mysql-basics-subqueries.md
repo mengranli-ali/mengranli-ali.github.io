@@ -419,7 +419,7 @@ WHERE
 
 #### UPDATE EXISTS
 
-Scenario: have to update the phone’s extensions of the employees who work at the office in San Francisco.
+**Scenario:** have to update the phone’s extensions of the employees who work at the office in San Francisco.
 
 First, finds employees who work at the office in `San Franciso`:
 
@@ -469,6 +469,7 @@ WHERE
 #### INSERT EXISTS
 
 `INSERT EXISTS`
+
 
 
 
