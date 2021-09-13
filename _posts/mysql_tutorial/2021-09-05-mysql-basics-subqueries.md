@@ -468,7 +468,7 @@ WHERE
 
 #### INSERT EXISTS
 
-`INSERT EXISTS` means addddd
+`INSERT EXISTS` means addddd dddddd
 
 
 
