@@ -3,7 +3,7 @@
 
 > Mengran's Dev Blog.
 
-Homepage
+Homepage:
 
 ![](./img/blog-desktop-pic.webp)
 
