@@ -468,11 +468,116 @@ WHERE
 
 #### INSERT EXISTS
 
-`INSERT EXISTS` means addddd dddddd
+`INSERT EXISTS` means 
+
+Scenario: to archive customers who don’t have any sales order in a separate table.
+
+1)create a new table for archiving the `customers `by copying the structure from the `customers` table:
+
+```vim
+CREATE TABLE customers_archive 
+LIKE customers;
+```
+
+2)insert customers who do not have any sales order into the `customers_archive` table using the following `INSERT` statement.
+
+```vim
+INSERT INTO customers_archive
+SELECT * 
+FROM customers
+WHERE NOT EXISTS( 
+   SELECT 1
+   FROM
+       orders
+   WHERE
+       orders.customernumber = customers.customernumber
+);
+
+```
+
+3)query data from the `customers_archive` table to verify the insert operation.
+
+```vim
+SELECT * FROM customers_archive;
+
+customerNumber	customerName
+103	        Atelier graphique
+112	        Signal Gift Stores
+114	        Australian Collectors, Co.
+```
+
+#### DELETE EXISTS
+
+Scenario: to delete the customers that exist in the `customers_archive` table from the `customers` table.
+
+use the `EXISTS` operator in `WHERE` clause of the `DELETE` statement:
+
+```vim
+DELETE FROM customers
+WHERE EXISTS( 
+    SELECT 
+        1
+    FROM
+        customers_archive a
+    
+    WHERE
+        a.customernumber = customers.customerNumber);
+        
+
+```
+
+#### EXISTS operator vs. IN operator
+
+**`IN `operator:**
+
+To find the customer who has placed at least one order:
+
+```vim
+SELECT 
+    customerNumber, 
+    customerName
+FROM
+    customers
+WHERE
+    customerNumber IN (
+        SELECT 
+            customerNumber
+        FROM
+            orders);
+```
+
+To compare the query that uses the `IN` operator with the one that uses the `EXISTS` operator by using the `EXPLAIN `statement:
+
+```vim
+EXPLAIN SELECT 
+    customerNumber, 
+    customerName
+FROM
+    customers
+WHERE
+    EXISTS( 
+        SELECT 
+            1
+        FROM
+            orders
+        WHERE
+            orders.customernumber = customers.customernumber);
+            
+        
+```
 
 
+The query that uses the `EXISTS` operator is much faster than the one that uses the `IN` operator.
+- The `EXISTS` operator works based on the “at least found” principle.
+- The `EXISTS` stops scanning the table when a matching row found.
+- When the `IN` operator is combined with a subquery, MySQL must process the subquery first
+- Then uses the result of the subquery to process the whole query.
 
-ddddddddddd
+If the subquery contains a large volume of data, the `EXISTS` operator provides better performance.
+
+But the query that uses the `IN` operator will perform faster if the result set returned from the subquery is very small.
+
+
 
 
 
