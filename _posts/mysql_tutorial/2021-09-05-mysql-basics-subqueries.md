@@ -468,8 +468,6 @@ WHERE
 
 #### INSERT EXISTS
 
-`INSERT EXISTS` means 
-
 Scenario: to archive customers who don’t have any sales order in a separate table.
 
 1)create a new table for archiving the `customers `by copying the structure from the `customers` table:
