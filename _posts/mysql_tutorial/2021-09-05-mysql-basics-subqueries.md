@@ -573,7 +573,7 @@ The query that uses the `EXISTS` operator is much faster than the one that uses 
 
 If the subquery contains a large volume of data, the `EXISTS` operator provides better performance.
 
-But the query that uses the `IN` operator will perform faster if the result set returned from the subquery is very small.
+However, the query that uses the `IN` operator will perform faster if the result set returned from the subquery is very small.
 
 
 
