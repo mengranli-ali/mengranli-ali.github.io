@@ -9,7 +9,8 @@ tags:
   - MySQL
 ---
 
-## Subqueries
+## Common Table Expression or CTE
+
 
 **Basic clauses:**
 - `Subquery` – show you how to nest a query (inner query) within another query (outer query) and use the result of the inner query for the outer query.
