@@ -50,8 +50,6 @@ tags:
 因为训练集只是全部数据的抽样，并不能体现全部数据的特点。
 
 
-`inplace=True`
-
 `df['age'].fillna(df['age'].mean(), inplace=True)`
 
 ```vim
